@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({

@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 
 const statusLabel: Record<string, string> = {

@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 
 export default async function AdminDashboard() {

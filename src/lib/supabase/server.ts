@@ -1,4 +1,5 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 // 一般伺服器端使用（尊重 RLS，依登入使用者權限）
@@ -34,8 +35,7 @@ export function createServerSupabase() {
 
 // 管理權限使用（略過 RLS，僅限後台 API route 使用，絕不可暴露到前端）
 export function createAdminSupabase() {
-  const { createClient } = require("@supabase/supabase-js");
-  return createClient(
+  return createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { persistSession: false } }

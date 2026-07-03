@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 import AccountAuthForm from "@/components/AccountAuthForm";
 import SignOutButton from "@/components/SignOutButton";

@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { SitePage } from "@/types";
 import { buildMetadata } from "@/lib/seo";

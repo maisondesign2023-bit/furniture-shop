@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Banner } from "@/types";
 import BannerForm from "@/components/admin/BannerForm";
