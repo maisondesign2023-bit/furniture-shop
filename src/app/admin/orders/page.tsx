@@ -1,16 +1,5 @@
-export const runtime = "edge";
-
 import { createServerSupabase } from "@/lib/supabase/server";
-
-const statusLabel: Record<string, string> = {
-  pending_payment: "待付款",
-  paid: "已付款",
-  processing: "備貨中",
-  shipped: "已出貨",
-  completed: "已完成",
-  cancelled: "已取消",
-  refunded: "已退款",
-};
+import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 
 export default async function AdminOrdersPage() {
   const supabase = createServerSupabase();
@@ -39,7 +28,9 @@ export default async function AdminOrdersPage() {
               <td className="py-3 font-mono text-xs">{o.order_no}</td>
               <td>{o.recipient_name}</td>
               <td className="font-mono">NT$ {o.total.toLocaleString()}</td>
-              <td>{statusLabel[o.status]}</td>
+              <td>
+                <OrderStatusSelect orderId={o.id} currentStatus={o.status} />
+              </td>
               <td className="font-mono text-xs text-muted">
                 {new Date(o.created_at).toLocaleString("zh-TW")}
               </td>

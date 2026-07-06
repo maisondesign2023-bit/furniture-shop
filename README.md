@@ -138,6 +138,37 @@ f. 正式上線後，也要到 Supabase → **Authentication** → **URL Configu
 3. 付款完成後，綠界會在背景通知你的網站（`/api/payment/callback`），訂單狀態會自動變成「已付款」
 4. 到 `/admin/orders` 確認訂單狀態有沒有正確更新
 
+## 更新七：訂單通知信（訂單成立/付款成功/已出貨）
+
+用 [Resend](https://resend.com)（開發者常用的 email API，免費額度每月 3000 封、每天 100 封）串接訂單通知信。
+
+**會自動寄信的時機：**
+- 客人送出訂單（尚未付款）→ 客人收到「訂單已成立」、你收到「新訂單通知」
+- 綠界付款完成 → 客人收到「付款成功」、你收到「訂單已付款」
+- 你在後台 `/admin/orders` 把訂單狀態改成「已出貨」→ 客人自動收到「商品已出貨」通知
+
+**設定步驟：**
+
+1. Supabase SQL Editor 執行 `supabase/migration_07_order_email.sql`
+2. 到 [resend.com](https://resend.com) 註冊帳號
+3. 左側選單 **API Keys** → 建立一組新的 API Key，複製起來
+4. 把這三組值填到 `.env.local` 跟 Cloudflare 環境變數（跟之前綠界的做法一樣，本機跟正式站都要填）：
+   - `RESEND_API_KEY`：剛剛複製的 API Key
+   - `EMAIL_FROM`：先用 `onboarding@resend.dev`（見下方說明）
+   - `ADMIN_NOTIFICATION_EMAIL`：你想收到訂單通知的信箱（例如你自己的 Gmail）
+
+**⚠️ 重要限制，請先了解：**
+
+Resend 沒有驗證過網域之前，只能用官方測試用的寄件地址 `onboarding@resend.dev`，而且**很可能只能寄到你自己註冊 Resend 帳號的那個信箱**，寄不到客人的信箱。也就是說：
+
+- **現階段**：管理員通知（寄到你自己信箱）可以正常運作，但客人收到的「訂單成立」「付款成功」通知信可能會寄送失敗
+- **要讓客人也能收到信**，你需要：
+  1. 有一個自己的網域名稱（例如 `你的品牌.com`，不是 `.pages.dev` 那種）
+  2. 到 Resend 的 **Domains** 頁面新增你的網域，照指示到你的網域註冊商那邊加上幾筆 DNS 記錄（SPF、DKIM）
+  3. 驗證通過後，把 `EMAIL_FROM` 改成 `noreply@你的網域.com` 這種格式，之後就能正常寄給任何客人了
+
+這件事不急，可以等你買了正式網域之後再回來設定，現在先讓「管理員收到訂單通知」這個核心需求動起來即可。
+
 ## 部署到 Cloudflare Pages
 
 ```bash
