@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product } from "@/types";

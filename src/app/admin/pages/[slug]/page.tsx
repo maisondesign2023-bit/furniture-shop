@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { SitePage } from "@/types";

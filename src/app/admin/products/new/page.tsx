@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import ProductForm from "@/components/admin/ProductForm";
 import { createServerSupabase } from "@/lib/supabase/server";
 

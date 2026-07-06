@@ -32,7 +32,7 @@ export const mockPaymentProvider: PaymentProvider = {
   name: "ecpay",
   async createPaymentSession(input) {
     return {
-      actionUrl: "/checkout/mock-payment",
+      actionUrl: "/api/payment/mock-redirect",
       formFields: {
         orderNo: input.orderNo,
         amount: String(input.amount),

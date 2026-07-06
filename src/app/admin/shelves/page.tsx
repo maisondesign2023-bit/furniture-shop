@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { ProductShelf } from "@/types";
 import ShelfCreateForm from "@/components/admin/ShelfCreateForm";

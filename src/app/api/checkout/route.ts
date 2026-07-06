@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { mockPaymentProvider } from "@/lib/payment/provider";
-// 之後選定金流商後，改成：
-// import { ecpayProvider } from "@/lib/payment/ecpay";
-// import { newebpayProvider } from "@/lib/payment/newebpay";
+import { ecpayProvider } from "@/lib/payment/ecpay";
+
+// 有設定綠界的金鑰就用真實金流，還沒設定就先用模擬付款，方便先測試流程
+const paymentProvider = process.env.ECPAY_MERCHANT_ID ? ecpayProvider : mockPaymentProvider;
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -55,8 +56,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: itemsError.message }, { status: 500 });
   }
 
-  // TODO: 決定金流商後，把 mockPaymentProvider 換成 ecpayProvider / newebpayProvider
-  const session = await mockPaymentProvider.createPaymentSession({
+  // 使用上面依環境判斷好的 paymentProvider（有綠界金鑰就是真實付款，否則是模擬付款）
+  const session = await paymentProvider.createPaymentSession({
     orderNo,
     amount: subtotal,
     itemName: orderItems.map((i: any) => i.product_name).join("、").slice(0, 100),
