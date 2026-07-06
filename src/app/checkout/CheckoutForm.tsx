@@ -28,7 +28,10 @@ export default function CheckoutForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("建立訂單失敗，請稍後再試");
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || "建立訂單失敗，請稍後再試");
+      }
       const { actionUrl, formFields } = await res.json();
 
       clear();
