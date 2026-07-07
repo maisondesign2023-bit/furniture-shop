@@ -10,6 +10,11 @@ export const runtime = "edge";
 
 export const revalidate = 3600;
 
+// SEO 用的描述文字要是純文字，不能有 HTML 標籤
+function stripHtml(html: string) {
+  return html.replace(/<[^>]*>/g, "").trim();
+}
+
 async function getProduct(slug: string) {
   const supabase = createPublicSupabase();
   const { data } = await supabase
@@ -32,7 +37,7 @@ export async function generateMetadata({
     title: product.seo_title || product.name,
     description:
       product.seo_description ||
-      product.description?.slice(0, 150) ||
+      (product.description ? stripHtml(product.description).slice(0, 150) : "") ||
       product.name,
     path: `/product/${product.slug}`,
     image: product.product_images?.[0]?.url,
@@ -53,7 +58,7 @@ export default async function ProductPage({
 
   const jsonLd = productJsonLd({
     name: product!.name,
-    description: product!.description,
+    description: product!.description ? stripHtml(product!.description) : null,
     price: product!.price,
     images: images.map((i) => i.url),
     slug: product!.slug,
@@ -109,9 +114,12 @@ export default async function ProductPage({
             />
           </div>
 
-          <div className="mt-10 space-y-4 font-body text-sm leading-relaxed text-ink">
-            <h2 className="font-display text-lg text-walnut">商品敘述</h2>
-            <p className="whitespace-pre-line">{product!.description}</p>
+          <div className="mt-10">
+            <h2 className="font-display text-lg font-semibold text-walnut mb-4">商品敘述</h2>
+            <div
+              className="rich-content"
+              dangerouslySetInnerHTML={{ __html: product!.description || "" }}
+            />
           </div>
         </div>
       </div>

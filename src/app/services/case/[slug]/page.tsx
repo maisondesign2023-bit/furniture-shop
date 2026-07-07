@@ -63,9 +63,10 @@ export default async function CaseStudyPage({
       </div>
 
       {item!.content && (
-        <div className="mt-10 whitespace-pre-line font-body text-sm leading-relaxed text-ink">
-          {item!.content}
-        </div>
+        <div
+          className="rich-content mt-10"
+          dangerouslySetInnerHTML={{ __html: item!.content || "" }}
+        />
       )}
     </div>
   );

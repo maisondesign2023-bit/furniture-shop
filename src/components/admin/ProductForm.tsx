@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Category } from "@/types";
 
 export default function ProductForm({ categories }: { categories: Category[] }) {
@@ -127,7 +128,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
         </select>
       </Field>
       <Field label="商品敘述">
-        <textarea name="description" rows={6} className="input" />
+        <RichTextEditor name="description" bucket="product-images" />
       </Field>
 
       <Field label={`商品圖片（最多10張，第一張為主圖），已選 ${files.length} 張`}>

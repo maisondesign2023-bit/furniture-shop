@@ -64,9 +64,10 @@ export default async function BlogPostPage({
         </div>
       )}
 
-      <div className="mt-8 whitespace-pre-line font-body text-sm leading-relaxed text-ink">
-        {post!.content}
-      </div>
+      <div
+        className="rich-content mt-8"
+        dangerouslySetInnerHTML={{ __html: post!.content || "" }}
+      />
     </article>
   );
 }

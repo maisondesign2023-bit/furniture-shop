@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function CaseStudyForm() {
   const supabase = createClient();
@@ -81,7 +82,7 @@ export default function CaseStudyForm() {
         <textarea name="summary" rows={2} className="input" />
       </Field>
       <Field label="完整說明">
-        <textarea name="content" rows={8} className="input" />
+        <RichTextEditor name="content" bucket="case-images" />
       </Field>
       <Field label={`案例圖片（最多10張，已選 ${files.length} 張）`}>
         <input

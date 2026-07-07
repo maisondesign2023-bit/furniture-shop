@@ -34,4 +34,33 @@
   .price-tag {
     @apply font-mono text-sm tracking-wide2 text-walnut;
   }
+
+  /* 圖文編輯器內容的顯示樣式（部落格/案例/商品說明的內文都會用到） */
+  .rich-content .ProseMirror,
+  .rich-content {
+    @apply font-body text-sm leading-relaxed text-ink;
+  }
+  .rich-content h2 {
+    @apply font-display mt-6 mb-3 text-lg font-semibold text-walnut;
+  }
+  .rich-content h3 {
+    @apply font-display mt-5 mb-2 text-base font-semibold text-walnut;
+  }
+  .rich-content p {
+    @apply mb-4;
+  }
+  .rich-content ul {
+    @apply mb-4 ml-5 list-disc;
+  }
+  .rich-content ol {
+    @apply mb-4 ml-5 list-decimal;
+  }
+  .rich-content img {
+    @apply max-w-full rounded-sm;
+  }
+  .rich-content::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
 }

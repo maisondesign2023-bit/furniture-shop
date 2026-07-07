@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function BlogPostForm() {
   const supabase = createClient();
@@ -77,7 +78,7 @@ export default function BlogPostForm() {
         <textarea name="excerpt" rows={2} className="input" />
       </Field>
       <Field label="內文">
-        <textarea name="content" rows={10} className="input" />
+        <RichTextEditor name="content" bucket="blog-images" />
       </Field>
       <Field label="發布狀態">
         <select name="status" className="input" defaultValue="draft">

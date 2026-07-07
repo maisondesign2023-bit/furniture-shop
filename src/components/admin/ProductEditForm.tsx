@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Category, Product } from "@/types";
 
 export default function ProductEditForm({
@@ -145,7 +146,7 @@ export default function ProductEditForm({
         </select>
       </Field>
       <Field label="商品敘述">
-        <textarea name="description" defaultValue={product.description ?? ""} rows={6} className="input" />
+        <RichTextEditor name="description" bucket="product-images" initialValue={product.description ?? ""} />
       </Field>
 
       <div>
