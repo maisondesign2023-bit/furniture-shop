@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { ContactMessage } from "@/types";
 
@@ -12,7 +10,7 @@ export default async function AdminContactsPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">預約諮詢訊息</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">預約諮詢訊息</h1>
       <p className="mt-2 font-body text-sm text-muted">
         家配師服務頁面的聯絡表單送出後會顯示在這裡。
       </p>
@@ -21,7 +19,7 @@ export default async function AdminContactsPage() {
         {(messages as ContactMessage[] | null)?.map((m) => (
           <div key={m.id} className="border border-line p-5 font-body text-sm">
             <div className="flex items-center justify-between">
-              <p className="font-display text-base not-italic text-walnut">
+              <p className="font-display text-base text-walnut">
                 {m.first_name} {m.last_name}
               </p>
               <span className="font-mono text-xs text-muted">

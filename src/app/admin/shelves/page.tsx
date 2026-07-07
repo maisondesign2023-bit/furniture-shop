@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { ProductShelf } from "@/types";
 import ShelfCreateForm from "@/components/admin/ShelfCreateForm";
@@ -14,7 +12,7 @@ export default async function AdminShelvesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">商品貨架管理</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">商品貨架管理</h1>
       <p className="mt-2 font-body text-sm text-muted">
         首頁會依「排序」由小到大顯示前兩個啟用中的貨架。點進貨架可以選要放哪些商品。
       </p>

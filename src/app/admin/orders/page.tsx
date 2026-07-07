@@ -10,7 +10,7 @@ export default async function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">訂單管理</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">訂單管理</h1>
 
       <table className="mt-8 w-full font-body text-sm">
         <thead>

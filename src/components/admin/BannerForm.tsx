@@ -108,8 +108,8 @@ export default function BannerForm() {
       <style jsx>{`
         .input {
           width: 100%;
-          border: 1px solid #dad4c8;
-          background: #f8f6f2;
+          border: 1px solid #E2DED8;
+          background: #F7F6F4;
           padding: 0.75rem 1rem;
         }
         .input:focus {

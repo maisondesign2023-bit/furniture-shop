@@ -27,6 +27,10 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
     const slug = (form.get("slug") as string) || slugify(name);
 
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       // 1. 新增商品
       const { data: product, error: productError } = await supabase
         .from("products")
@@ -45,6 +49,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
           colors: parseOptions(form.get("colors") as string),
           seo_title: form.get("seo_title") || null,
           seo_description: form.get("seo_description") || null,
+          created_by: user?.id ?? null,
         })
         .select()
         .single();
@@ -158,8 +163,8 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
       <style jsx>{`
         .input {
           width: 100%;
-          border: 1px solid #dad4c8;
-          background: #f8f6f2;
+          border: 1px solid #E2DED8;
+          background: #F7F6F4;
           padding: 0.75rem 1rem;
         }
         .input:focus {

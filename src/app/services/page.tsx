@@ -24,7 +24,7 @@ export default async function ServicesPage() {
   return (
     <div>
       <div className="mx-auto max-w-2xl px-6 py-14 font-body text-sm leading-relaxed">
-        <h1 className="font-display text-2xl italic text-walnut">家配師服務</h1>
+        <h1 className="font-display text-2xl font-semibold text-walnut">家配師服務</h1>
         <div className="grain-divider my-8" />
         <div className="space-y-6 text-ink">
           <p>
@@ -35,7 +35,7 @@ export default async function ServicesPage() {
 
       {/* 過去案例 */}
       <div className="mx-auto max-w-6xl px-6 pb-16">
-        <h2 className="font-display text-2xl italic text-walnut">過去案例</h2>
+        <h2 className="font-display text-2xl font-semibold text-walnut">過去案例</h2>
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {(cases as CaseStudy[] | null)?.map((c) => {
             const cover = c.case_study_images?.[0]?.url;
@@ -52,7 +52,7 @@ export default async function ServicesPage() {
                     />
                   )}
                 </div>
-                <h3 className="mt-3 font-display text-base italic text-walnut">
+                <h3 className="mt-3 font-display text-base font-semibold text-walnut">
                   {c.title}
                 </h3>
                 {c.summary && (
@@ -73,7 +73,7 @@ export default async function ServicesPage() {
 
       {/* 聯絡表單 */}
       <div className="mx-auto max-w-2xl px-6 pb-20">
-        <h2 className="font-display text-2xl italic text-walnut">預約諮詢</h2>
+        <h2 className="font-display text-2xl font-semibold text-walnut">預約諮詢</h2>
         <div className="grain-divider my-8" />
         <ContactForm />
       </div>

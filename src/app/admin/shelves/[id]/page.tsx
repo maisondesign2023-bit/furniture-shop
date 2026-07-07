@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product, ShelfProduct } from "@/types";
@@ -35,7 +33,7 @@ export default async function AdminShelfDetailPage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">{shelf.title}</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">{shelf.title}</h1>
       <p className="mt-2 font-body text-sm text-muted">選擇要放進這個貨架的商品。</p>
 
       <div className="mt-8">

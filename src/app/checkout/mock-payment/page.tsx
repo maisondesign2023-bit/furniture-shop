@@ -1,7 +1,5 @@
 "use client";
 
-export const runtime = "edge";
-
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -13,7 +11,7 @@ export default function MockPaymentPage() {
   return (
     <div className="mx-auto max-w-md px-6 py-24 text-center">
       <p className="font-mono text-xs text-brass">開發測試用付款頁</p>
-      <h1 className="mt-4 font-display text-2xl italic text-walnut">
+      <h1 className="mt-4 font-display text-2xl font-semibold text-walnut">
         模擬付款
       </h1>
       <p className="mt-4 font-body text-sm text-muted">

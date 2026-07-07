@@ -50,7 +50,7 @@ export default async function CategoryPage({
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-14">
-      <h1 className="font-display text-3xl italic text-walnut">{category!.name}</h1>
+      <h1 className="font-display text-3xl font-semibold text-walnut">{category!.name}</h1>
       <div className="grain-divider my-8" />
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">

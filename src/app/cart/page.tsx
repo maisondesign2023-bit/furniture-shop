@@ -1,7 +1,5 @@
 "use client";
 
-export const runtime = "edge";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
@@ -12,7 +10,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-        <h1 className="font-display text-2xl italic text-walnut">購物車是空的</h1>
+        <h1 className="font-display text-2xl font-semibold text-walnut">購物車是空的</h1>
         <Link
           href="/"
           className="mt-6 inline-block border border-walnut px-6 py-3 font-body text-sm tracking-wide2 text-walnut hover:bg-walnut hover:text-surface"
@@ -25,7 +23,7 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-14">
-      <h1 className="font-display text-3xl italic text-walnut">購物車</h1>
+      <h1 className="font-display text-3xl font-semibold text-walnut">購物車</h1>
       <div className="grain-divider my-8" />
 
       <div className="space-y-6">

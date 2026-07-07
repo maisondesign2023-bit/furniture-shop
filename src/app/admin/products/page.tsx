@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product } from "@/types";
@@ -8,7 +6,7 @@ export default async function AdminProductsPage() {
   const supabase = createServerSupabase();
   const { data: products } = await supabase
     .from("products")
-    .select("*, categories(name)")
+    .select("*, categories(name), profiles(full_name)")
     .order("created_at", { ascending: false });
 
   const statusLabel: Record<string, string> = {
@@ -20,7 +18,7 @@ export default async function AdminProductsPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl italic text-walnut">商品管理</h1>
+        <h1 className="font-display text-2xl font-semibold text-walnut">商品管理</h1>
         <Link
           href="/admin/products/new"
           className="bg-walnut px-5 py-2.5 font-body text-sm text-surface hover:bg-brass"
@@ -37,6 +35,7 @@ export default async function AdminProductsPage() {
             <th>價格</th>
             <th>庫存</th>
             <th>狀態</th>
+            <th>上架人員</th>
             <th></th>
           </tr>
         </thead>
@@ -48,6 +47,9 @@ export default async function AdminProductsPage() {
               <td className="font-mono">NT$ {p.price.toLocaleString()}</td>
               <td className="font-mono">{p.stock}</td>
               <td>{statusLabel[p.status]}</td>
+              <td className="font-mono text-xs text-muted">
+                {p.profiles?.full_name || "—"}
+              </td>
               <td>
                 <Link
                   href={`/admin/products/${p.id}`}

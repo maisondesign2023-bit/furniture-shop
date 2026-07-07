@@ -22,7 +22,7 @@ export default async function ShippingPolicyPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-14 font-body text-sm leading-relaxed">
-      <h1 className="font-display text-2xl italic text-walnut">
+      <h1 className="font-display text-2xl font-semibold text-walnut">
         {(page as SitePage | null)?.title || "運送與退換貨"}
       </h1>
       <div className="grain-divider my-8" />

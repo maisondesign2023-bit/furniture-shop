@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -27,7 +25,7 @@ export default async function AdminLayout({
   return (
     <div className="mx-auto flex max-w-6xl gap-10 px-6 py-10">
       <aside className="w-48 shrink-0">
-        <p className="font-display italic text-walnut">後台管理</p>
+        <p className="font-display text-walnut">後台管理</p>
         <nav className="mt-6 flex flex-col gap-3 font-body text-sm">
           <Link href="/admin" className="hover:text-brass">總覽</Link>
           <Link href="/admin/products" className="hover:text-brass">商品管理</Link>

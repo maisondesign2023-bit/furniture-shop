@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
@@ -11,7 +9,7 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  style: ["normal"],
 });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const mono = IBM_Plex_Mono({

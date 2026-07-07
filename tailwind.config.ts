@@ -7,12 +7,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#EDEAE3",      // 主背景：灰調米杏，比常見暖白更沉一點
-        surface: "#F8F6F2",    // 卡片/區塊背景
+        paper: "#FFFFFF",      // 主背景：純白
+        surface: "#F7F6F4",    // 卡片/區塊背景，跟白底做一點區隔
         ink: "#2A2521",        // 主文字：深咖啡黑
         walnut: "#4B3324",     // 深胡桃木：標題強調
-        brass: "#9C7A4F",      // 黃銅/木紋強調色，取代常見陶土色
-        line: "#DAD4C8",       // 分隔線
+        brass: "#9C7A4F",      // 黃銅/木紋強調色
+        line: "#E2DED8",       // 分隔線
         muted: "#8A8177",      // 次要文字
       },
       fontFamily: {

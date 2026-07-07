@@ -22,7 +22,7 @@ export default async function BlogListPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-14">
-      <h1 className="font-display text-3xl italic text-walnut">探索更多</h1>
+      <h1 className="font-display text-3xl font-semibold text-walnut">探索更多</h1>
       <div className="grain-divider my-8" />
 
       <div className="grid gap-10 md:grid-cols-2">
@@ -39,7 +39,7 @@ export default async function BlogListPage() {
                 />
               )}
             </div>
-            <h2 className="mt-4 font-display text-lg italic text-walnut">
+            <h2 className="mt-4 font-display text-lg font-semibold text-walnut">
               {post.title}
             </h2>
             {post.excerpt && (

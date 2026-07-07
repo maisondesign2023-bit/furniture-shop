@@ -76,7 +76,7 @@ export default async function HomePage() {
             <p className="font-mono text-xs uppercase tracking-wide2 text-brass">
               Furniture &amp; Living
             </p>
-            <h1 className="mt-4 whitespace-pre-line font-display text-4xl italic leading-tight text-walnut md:text-5xl">
+            <h1 className="mt-4 whitespace-pre-line font-display text-4xl font-semibold leading-tight text-walnut md:text-5xl">
               {hero?.title || "為每個空間，\n找到合適的重量。"}
             </h1>
             <p className="mt-6 max-w-md font-body text-muted">
@@ -166,7 +166,7 @@ function ProductShelfSection({
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <h2 className="font-display text-2xl italic text-walnut">{shelf.title}</h2>
+      <h2 className="font-display text-2xl font-semibold text-walnut">{shelf.title}</h2>
       <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} />
@@ -182,7 +182,7 @@ function BlogSection({ posts }: { posts: BlogPost[] }) {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <h2 className="font-display text-2xl italic text-walnut">探索更多</h2>
+      <h2 className="font-display text-2xl font-semibold text-walnut">探索更多</h2>
 
       <div className="mt-8 grid gap-10 md:grid-cols-2">
         <Link href={`/blog/${featured.slug}`} className="group block">
@@ -197,7 +197,7 @@ function BlogSection({ posts }: { posts: BlogPost[] }) {
               />
             )}
           </div>
-          <h3 className="mt-4 font-display text-xl italic text-walnut">
+          <h3 className="mt-4 font-display text-xl font-semibold text-walnut">
             {featured.title}
           </h3>
           {featured.excerpt && (
@@ -222,7 +222,7 @@ function BlogSection({ posts }: { posts: BlogPost[] }) {
                 )}
               </div>
               <div>
-                <h3 className="font-display text-base italic text-walnut">
+                <h3 className="font-display text-base font-semibold text-walnut">
                   {post.title}
                 </h3>
                 {post.excerpt && (

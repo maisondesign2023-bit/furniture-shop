@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { createServerSupabase } from "@/lib/supabase/server";
 import AccountAuthForm from "@/components/AccountAuthForm";
 import SignOutButton from "@/components/SignOutButton";
@@ -14,7 +12,7 @@ export default async function AccountPage() {
   if (!user) {
     return (
       <div className="mx-auto max-w-md px-6 py-14">
-        <h1 className="font-display text-3xl italic text-walnut">會員登入</h1>
+        <h1 className="font-display text-3xl font-semibold text-walnut">會員登入</h1>
         <div className="grain-divider my-8" />
         <AccountAuthForm />
       </div>
@@ -39,7 +37,7 @@ export default async function AccountPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-14">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl italic text-walnut">我的訂單</h1>
+        <h1 className="font-display text-3xl font-semibold text-walnut">我的訂單</h1>
         <SignOutButton />
       </div>
       <div className="grain-divider my-8" />

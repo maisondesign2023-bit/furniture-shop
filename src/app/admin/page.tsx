@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { createServerSupabase } from "@/lib/supabase/server";
 
 export default async function AdminDashboard() {
@@ -19,7 +17,7 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">總覽</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">總覽</h1>
       <div className="mt-8 grid grid-cols-3 gap-4">
         {stats.map((s) => (
           <div key={s.label} className="border border-line p-6">

@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { SitePage } from "@/types";
@@ -10,7 +8,7 @@ export default async function AdminPagesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">頁面內容管理</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">頁面內容管理</h1>
       <p className="mt-2 font-body text-sm text-muted">
         管理「運送與退換貨」「隱私權政策」這類靜態說明頁面的內容。
       </p>

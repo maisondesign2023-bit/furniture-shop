@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product, Category } from "@/types";
@@ -25,7 +23,7 @@ export default async function EditProductPage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl italic text-walnut">編輯商品</h1>
+      <h1 className="font-display text-2xl font-semibold text-walnut">編輯商品</h1>
       <div className="mt-8">
         <ProductEditForm
           product={product as Product}

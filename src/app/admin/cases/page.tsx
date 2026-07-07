@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { CaseStudy } from "@/types";
@@ -16,7 +14,7 @@ export default async function AdminCasesPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl italic text-walnut">案例管理</h1>
+        <h1 className="font-display text-2xl font-semibold text-walnut">案例管理</h1>
         <Link
           href="/admin/cases/new"
           className="bg-walnut px-5 py-2.5 font-body text-sm text-surface hover:bg-brass"

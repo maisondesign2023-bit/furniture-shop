@@ -43,7 +43,7 @@ export default async function BlogPostPage({
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-14">
-      <h1 className="font-display text-3xl italic text-walnut">{post!.title}</h1>
+      <h1 className="font-display text-3xl font-semibold text-walnut">{post!.title}</h1>
       {post!.published_at && (
         <p className="mt-3 font-mono text-xs text-muted">
           {new Date(post!.published_at).toLocaleDateString("zh-TW")}

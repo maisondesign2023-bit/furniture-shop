@@ -74,7 +74,7 @@ export default async function ProductPage({
         <ProductGallery images={images} productName={product!.name} />
 
         <div>
-          <h1 className="font-display text-3xl italic text-walnut">
+          <h1 className="font-display text-3xl font-semibold text-walnut">
             {product!.name}
           </h1>
 
@@ -108,7 +108,7 @@ export default async function ProductPage({
           </div>
 
           <div className="mt-10 space-y-4 font-body text-sm leading-relaxed text-ink">
-            <h2 className="font-display text-lg not-italic text-walnut">商品敘述</h2>
+            <h2 className="font-display text-lg text-walnut">商品敘述</h2>
             <p className="whitespace-pre-line">{product!.description}</p>
           </div>
         </div>

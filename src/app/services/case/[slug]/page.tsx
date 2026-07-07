@@ -51,7 +51,7 @@ export default async function CaseStudyPage({
         家配師服務 / {item!.title}
       </nav>
 
-      <h1 className="font-display text-3xl italic text-walnut">{item!.title}</h1>
+      <h1 className="font-display text-3xl font-semibold text-walnut">{item!.title}</h1>
       {item!.summary && (
         <p className="mt-3 font-body text-sm text-muted">{item!.summary}</p>
       )}

@@ -31,8 +31,10 @@ export type Product = {
   seo_description: string | null;
   sizes: string[];
   colors: string[];
+  created_by?: string | null;
   product_images?: ProductImage[];
   categories?: Category | null;
+  profiles?: { full_name: string | null } | null;
 };
 
 export type SitePage = {

@@ -36,7 +36,7 @@ export default function ContactForm() {
   if (done) {
     return (
       <div className="border border-line p-8 text-center">
-        <p className="font-display text-lg italic text-walnut">已收到你的訊息</p>
+        <p className="font-display text-lg font-semibold text-walnut">已收到你的訊息</p>
         <p className="mt-2 font-body text-sm text-muted">
           我們會盡快與你聯繫，謝謝你的預約諮詢。
         </p>
@@ -84,8 +84,8 @@ export default function ContactForm() {
       <style jsx>{`
         .input {
           width: 100%;
-          border: 1px solid #dad4c8;
-          background: #f8f6f2;
+          border: 1px solid #E2DED8;
+          background: #F7F6F4;
           padding: 0.75rem 1rem;
         }
         .input:focus {

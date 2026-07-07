@@ -26,8 +26,8 @@ export default async function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-display text-xl italic text-walnut">
-          木・室
+        <Link href="/" className="font-display text-xl font-semibold text-walnut">
+          VERO Living
         </Link>
 
         <nav className="hidden gap-8 font-body text-sm tracking-wide2 text-ink md:flex">

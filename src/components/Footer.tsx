@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grain-divider mb-10" />
         <div className="grid gap-10 font-body text-sm text-muted md:grid-cols-3">
           <div>
-            <p className="font-display text-lg italic text-walnut">木・室</p>
+            <p className="font-display text-lg font-semibold text-walnut">VERO Living</p>
             <p className="mt-2 leading-relaxed">
               職人工藝、質感簡約的家具選物。
             </p>
@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
         </div>
         <p className="mt-10 font-mono text-xs text-muted">
-          © {new Date().getFullYear()} 木・室 All rights reserved.
+          © {new Date().getFullYear()} VERO Living All rights reserved.
         </p>
       </div>
     </footer>
