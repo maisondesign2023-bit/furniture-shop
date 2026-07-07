@@ -5,6 +5,8 @@ import ProductCard from "@/components/ProductCard";
 import type { Category, Product } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const revalidate = 3600;
 
 async function getCategory(slug: string) {

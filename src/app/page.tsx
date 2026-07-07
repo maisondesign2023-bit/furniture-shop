@@ -5,6 +5,8 @@ import ProductCard from "@/components/ProductCard";
 import type { Product, Banner, ProductShelf, ShelfProduct, BlogPost } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 const FALLBACK_BANNER =
   "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=80";
 

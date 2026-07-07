@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { BlogPost } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AdminBlogPage() {
   const supabase = createServerSupabase();
   const { data: posts } = await supabase

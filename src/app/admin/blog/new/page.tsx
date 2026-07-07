@@ -1,5 +1,7 @@
 import BlogPostForm from "@/components/admin/BlogPostForm";
 
+export const runtime = "edge";
+
 export default function NewBlogPostPage() {
   return (
     <div>

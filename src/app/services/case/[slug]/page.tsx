@@ -5,6 +5,8 @@ import ProductGallery from "@/components/ProductGallery";
 import type { CaseStudy } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const revalidate = 3600;
 
 async function getCase(slug: string) {

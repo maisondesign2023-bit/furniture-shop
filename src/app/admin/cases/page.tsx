@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { CaseStudy } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AdminCasesPage() {
   const supabase = createServerSupabase();
   const { data: cases } = await supabase

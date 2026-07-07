@@ -3,6 +3,8 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import type { SitePage } from "@/types";
 import SitePageForm from "@/components/admin/SitePageForm";
 
+export const runtime = "edge";
+
 export default async function AdminEditPagePage({
   params,
 }: {

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { createPublicSupabase } from "@/lib/supabase/public";
 
+export const runtime = "edge";
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

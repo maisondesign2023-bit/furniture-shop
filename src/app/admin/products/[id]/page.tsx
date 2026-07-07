@@ -3,6 +3,8 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product, Category } from "@/types";
 import ProductEditForm from "@/components/admin/ProductEditForm";
 
+export const runtime = "edge";
+
 export default async function EditProductPage({
   params,
 }: {

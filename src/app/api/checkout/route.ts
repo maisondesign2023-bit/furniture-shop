@@ -4,6 +4,8 @@ import { mockPaymentProvider } from "@/lib/payment/provider";
 import { ecpayProvider } from "@/lib/payment/ecpay";
 import { sendOrderCreatedEmails } from "@/lib/email";
 
+export const runtime = "edge";
+
 // 有設定綠界的金鑰就用真實金流，還沒設定就先用模擬付款，方便先測試流程
 const paymentProvider = process.env.ECPAY_MERCHANT_ID ? ecpayProvider : mockPaymentProvider;
 

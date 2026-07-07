@@ -5,6 +5,8 @@ import type { CaseStudy } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
 
+export const runtime = "edge";
+
 export const metadata = buildMetadata({
   title: "家配師服務",
   description: "一對一空間規劃與家具配置諮詢服務，看過去案例、線上預約諮詢。",

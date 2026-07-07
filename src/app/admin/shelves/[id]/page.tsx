@@ -3,6 +3,8 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product, ShelfProduct } from "@/types";
 import ShelfProductManager from "@/components/admin/ShelfProductManager";
 
+export const runtime = "edge";
+
 export default async function AdminShelfDetailPage({
   params,
 }: {

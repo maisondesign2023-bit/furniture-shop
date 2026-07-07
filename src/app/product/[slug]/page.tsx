@@ -6,6 +6,8 @@ import AddToCartButton from "@/components/AddToCartButton";
 import type { Product } from "@/types";
 import { buildMetadata, productJsonLd } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const revalidate = 3600;
 
 async function getProduct(slug: string) {

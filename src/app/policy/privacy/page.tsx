@@ -2,6 +2,8 @@ import { createPublicSupabase } from "@/lib/supabase/public";
 import type { SitePage } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const metadata = buildMetadata({
   title: "隱私權政策",
   description: "個人資料蒐集、使用與保護說明。",

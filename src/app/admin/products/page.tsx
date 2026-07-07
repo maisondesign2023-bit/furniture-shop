@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { Product } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AdminProductsPage() {
   const supabase = createServerSupabase();
   const { data: products } = await supabase

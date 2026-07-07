@@ -3,6 +3,8 @@ import type { ProductShelf } from "@/types";
 import ShelfCreateForm from "@/components/admin/ShelfCreateForm";
 import Link from "next/link";
 
+export const runtime = "edge";
+
 export default async function AdminShelvesPage() {
   const supabase = createServerSupabase();
   const { data: shelves } = await supabase

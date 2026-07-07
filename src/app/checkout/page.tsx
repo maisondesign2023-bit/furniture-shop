@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import CheckoutForm from "./CheckoutForm";
 
+export const runtime = "edge";
+
 export default async function CheckoutPage() {
   const supabase = createServerSupabase();
   const {

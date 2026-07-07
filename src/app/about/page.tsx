@@ -1,5 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const metadata = buildMetadata({
   title: "關於我們",
   description: "了解我們的品牌故事與工藝理念。",

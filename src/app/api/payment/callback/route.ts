@@ -3,6 +3,8 @@ import { createAdminSupabase } from "@/lib/supabase/server";
 import { ecpayProvider } from "@/lib/payment/ecpay";
 import { sendOrderPaidEmails } from "@/lib/email";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const payload: Record<string, string> = {};

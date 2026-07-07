@@ -3,6 +3,8 @@ import type { Banner } from "@/types";
 import BannerForm from "@/components/admin/BannerForm";
 import BannerList from "@/components/admin/BannerList";
 
+export const runtime = "edge";
+
 export default async function AdminBannersPage() {
   const supabase = createServerSupabase();
   const { data: banners } = await supabase

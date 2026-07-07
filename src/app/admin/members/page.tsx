@@ -1,6 +1,8 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import MemberNameEditor from "@/components/admin/MemberNameEditor";
 
+export const runtime = "edge";
+
 export default async function AdminMembersPage() {
   const supabase = createServerSupabase();
   const { data: members } = await supabase

@@ -4,6 +4,8 @@ import { createPublicSupabase } from "@/lib/supabase/public";
 import type { BlogPost } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const metadata = buildMetadata({
   title: "探索更多",
   description: "空間佈置靈感、選材知識、居家生活提案。",

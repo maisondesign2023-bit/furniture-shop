@@ -1,5 +1,7 @@
 import CaseStudyForm from "@/components/admin/CaseStudyForm";
 
+export const runtime = "edge";
+
 export default function NewCaseStudyPage() {
   return (
     <div>

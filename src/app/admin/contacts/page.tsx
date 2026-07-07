@@ -1,6 +1,8 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { ContactMessage } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AdminContactsPage() {
   const supabase = createServerSupabase();
   const { data: messages } = await supabase

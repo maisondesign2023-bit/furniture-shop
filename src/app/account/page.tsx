@@ -3,6 +3,8 @@ import AccountAuthForm from "@/components/AccountAuthForm";
 import SignOutButton from "@/components/SignOutButton";
 import type { Order } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AccountPage() {
   const supabase = createServerSupabase();
   const {

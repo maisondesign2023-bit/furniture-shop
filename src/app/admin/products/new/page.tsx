@@ -1,6 +1,8 @@
 import ProductForm from "@/components/admin/ProductForm";
 import { createServerSupabase } from "@/lib/supabase/server";
 
+export const runtime = "edge";
+
 export default async function NewProductPage() {
   const supabase = createServerSupabase();
   const { data: categories } = await supabase

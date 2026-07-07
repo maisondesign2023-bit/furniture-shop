@@ -1,5 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 
+export const runtime = "edge";
+
 export default async function AdminDashboard() {
   const supabase = createServerSupabase();
   const [{ count: productCount }, { count: orderCount }, { count: memberCount }] =

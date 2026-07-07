@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { SitePage } from "@/types";
 
+export const runtime = "edge";
+
 export default async function AdminPagesPage() {
   const supabase = createServerSupabase();
   const { data: pages } = await supabase.from("site_pages").select("*").order("title");

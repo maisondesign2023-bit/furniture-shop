@@ -1,6 +1,8 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 
+export const runtime = "edge";
+
 export default async function AdminOrdersPage() {
   const supabase = createServerSupabase();
   const { data: orders } = await supabase

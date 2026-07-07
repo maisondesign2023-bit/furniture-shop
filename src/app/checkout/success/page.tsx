@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const runtime = "edge";
+
 export default function CheckoutSuccessPage() {
   return (
     <div className="mx-auto max-w-md px-6 py-24 text-center">

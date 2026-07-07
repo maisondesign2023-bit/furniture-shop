@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { sendOrderShippedEmail } from "@/lib/email";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const { orderId, status } = await request.json();
 

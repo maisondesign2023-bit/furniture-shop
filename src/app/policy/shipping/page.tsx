@@ -2,6 +2,8 @@ import { createPublicSupabase } from "@/lib/supabase/public";
 import type { SitePage } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
+export const runtime = "edge";
+
 export const metadata = buildMetadata({
   title: "運送與退換貨",
   description: "運送方式、運費計算與退換貨政策說明。",
