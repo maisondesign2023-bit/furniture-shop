@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function MockPaymentPage() {
+function MockPaymentContent() {
   const params = useSearchParams();
   const orderNo = params.get("orderNo");
   const amount = params.get("amount");
@@ -27,5 +28,13 @@ export default function MockPaymentPage() {
         模擬付款完成
       </Link>
     </div>
+  );
+}
+
+export default function MockPaymentPage() {
+  return (
+    <Suspense fallback={null}>
+      <MockPaymentContent />
+    </Suspense>
   );
 }
