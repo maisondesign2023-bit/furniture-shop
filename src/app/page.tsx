@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import Image from "next/image";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import ProductCard from "@/components/ProductCard";
 import type { Product, Banner, ProductShelf, ShelfProduct, BlogPost } from "@/types";
 import { buildMetadata } from "@/lib/seo";
@@ -19,7 +17,7 @@ export const metadata = buildMetadata({
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
 
   const [{ data: heroBanners }, { data: dividerBanners }, { data: shelves }, { data: posts }] =
     await Promise.all([
@@ -55,16 +53,19 @@ export default async function HomePage() {
   const dividers = (dividerBanners as Banner[]) ?? [];
   const shelfList = (shelves as ProductShelf[]) ?? [];
 
-  // 分別抓兩個貨架各自的商品
-  const shelfProductLists = await Promise.all(
-    shelfList.map((shelf) =>
-      supabase
-        .from("shelf_products")
-        .select("*, products(*, product_images(*))")
-        .eq("shelf_id", shelf.id)
-        .order("sort_order")
-    )
-  );
+  // 兩個貨架的商品合併成一次查詢，減少重複連線與資料解析的成本
+  const shelfIds = shelfList.map((s) => s.id);
+  const { data: allShelfProducts } =
+    shelfIds.length > 0
+      ? await supabase
+          .from("shelf_products")
+          .select("*, products(*, product_images(*))")
+          .in("shelf_id", shelfIds)
+          .order("sort_order")
+      : { data: [] as ShelfProduct[] };
+
+  const shelfProductsById = (id: string) =>
+    ((allShelfProducts as ShelfProduct[]) ?? []).filter((sp) => sp.shelf_id === id);
 
   return (
     <div>
@@ -109,7 +110,7 @@ export default async function HomePage() {
       {shelfList[0] && (
         <ProductShelfSection
           shelf={shelfList[0]}
-          items={shelfProductLists[0]?.data as ShelfProduct[] | null}
+          items={shelfProductsById(shelfList[0].id)}
         />
       )}
 
@@ -120,7 +121,7 @@ export default async function HomePage() {
       {shelfList[1] && (
         <ProductShelfSection
           shelf={shelfList[1]}
-          items={shelfProductLists[1]?.data as ShelfProduct[] | null}
+          items={shelfProductsById(shelfList[1].id)}
         />
       )}
 

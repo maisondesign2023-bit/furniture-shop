@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import Image from "next/image";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import type { CaseStudy } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
@@ -16,7 +14,7 @@ export const metadata = buildMetadata({
 export const revalidate = 3600;
 
 export default async function ServicesPage() {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data: cases } = await supabase
     .from("case_studies")
     .select("*, case_study_images(*)")

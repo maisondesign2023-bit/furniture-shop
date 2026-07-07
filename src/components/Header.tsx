@@ -1,30 +1,27 @@
 import Link from "next/link";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import CartBadge from "@/components/CartBadge";
-import SignOutButton from "@/components/SignOutButton";
+import AuthStatus from "@/components/AuthStatus";
 import type { Category, BlogPost, CaseStudy } from "@/types";
 
 export default async function Header() {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
 
-  const [{ data: categories }, { data: posts }, { data: cases }, { data: userData }] =
-    await Promise.all([
-      supabase.from("categories").select("*").order("sort_order"),
-      supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("status", "published")
-        .order("published_at", { ascending: false })
-        .limit(5),
-      supabase
-        .from("case_studies")
-        .select("*")
-        .eq("status", "published")
-        .order("sort_order")
-        .limit(5),
-      supabase.auth.getUser(),
-    ]);
-  const isLoggedIn = Boolean(userData?.user);
+  const [{ data: categories }, { data: posts }, { data: cases }] = await Promise.all([
+    supabase.from("categories").select("*").order("sort_order"),
+    supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(5),
+    supabase
+      .from("case_studies")
+      .select("*")
+      .eq("status", "published")
+      .order("sort_order")
+      .limit(5),
+  ]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur">
@@ -123,7 +120,7 @@ export default async function Header() {
 
         <div className="flex items-center gap-5 font-body text-sm">
           <Link href="/account" className="hover:text-brass">會員</Link>
-          {isLoggedIn && <SignOutButton />}
+          <AuthStatus />
           <Link href="/cart" className="relative hover:text-brass">
             購物車
             <CartBadge />

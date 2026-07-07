@@ -1,6 +1,4 @@
-export const runtime = "edge";
-
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import type { SitePage } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
@@ -13,7 +11,7 @@ export const metadata = buildMetadata({
 export const revalidate = 3600;
 
 export default async function PrivacyPolicyPage() {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data: page } = await supabase
     .from("site_pages")
     .select("*")

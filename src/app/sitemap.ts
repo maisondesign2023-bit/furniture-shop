@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
 
   const [{ data: products }, { data: categories }, { data: posts }, { data: cases }] =
     await Promise.all([

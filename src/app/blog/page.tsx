@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import Link from "next/link";
 import Image from "next/image";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import type { BlogPost } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
@@ -15,7 +13,7 @@ export const metadata = buildMetadata({
 export const revalidate = 3600;
 
 export default async function BlogListPage() {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data: posts } = await supabase
     .from("blog_posts")
     .select("*")

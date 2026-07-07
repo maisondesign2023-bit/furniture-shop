@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import ProductGallery from "@/components/ProductGallery";
 import type { CaseStudy } from "@/types";
 import { buildMetadata } from "@/lib/seo";
@@ -10,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 3600;
 
 async function getCase(slug: string) {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("case_studies")
     .select("*, case_study_images(*)")

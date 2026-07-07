@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import ProductCard from "@/components/ProductCard";
 import type { Category, Product } from "@/types";
 import { buildMetadata } from "@/lib/seo";
@@ -10,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 3600;
 
 async function getCategory(slug: string) {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("categories")
     .select("*")
@@ -42,7 +40,7 @@ export default async function CategoryPage({
   const category = await getCategory(params.slug);
   if (!category) notFound();
 
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data: products } = await supabase
     .from("products")
     .select("*, product_images(*)")

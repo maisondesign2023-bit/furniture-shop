@@ -1,8 +1,6 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import ProductGallery from "@/components/ProductGallery";
 import AddToCartButton from "@/components/AddToCartButton";
 import type { Product } from "@/types";
@@ -11,7 +9,7 @@ import { buildMetadata, productJsonLd } from "@/lib/seo";
 export const revalidate = 3600;
 
 async function getProduct(slug: string) {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("products")
     .select("*, product_images(*), categories(*)")

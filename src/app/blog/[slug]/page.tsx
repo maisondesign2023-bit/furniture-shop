@@ -1,16 +1,14 @@
-export const runtime = "edge";
-
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase } from "@/lib/supabase/public";
 import type { BlogPost } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 async function getPost(slug: string) {
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("blog_posts")
     .select("*")
