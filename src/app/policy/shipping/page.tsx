@@ -28,9 +28,11 @@ export default async function ShippingPolicyPage() {
         {(page as SitePage | null)?.title || "運送與退換貨"}
       </h1>
       <div className="grain-divider my-8" />
-      <div className="whitespace-pre-line text-ink">
-        {content || "尚未設定內容，請至後台「頁面內容管理」編輯。"}
-      </div>
+      {content ? (
+        <div className="rich-content" dangerouslySetInnerHTML={{ __html: content }} />
+      ) : (
+        <p className="text-ink">尚未設定內容，請至後台「頁面內容管理」編輯。</p>
+      )}
     </div>
   );
 }

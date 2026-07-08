@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { SitePage } from "@/types";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function SitePageForm({ page }: { page: SitePage }) {
   const supabase = createClient();
@@ -51,12 +52,7 @@ export default function SitePageForm({ page }: { page: SitePage }) {
       </label>
       <label className="block">
         <span className="mb-1 block font-mono text-xs text-muted">內容</span>
-        <textarea
-          name="content"
-          defaultValue={page.content ?? ""}
-          rows={14}
-          className="w-full border border-line bg-surface px-4 py-3"
-        />
+        <RichTextEditor name="content" bucket="site-images" initialValue={page.content ?? ""} />
       </label>
 
       {error && <p className="text-red-700">{error}</p>}
