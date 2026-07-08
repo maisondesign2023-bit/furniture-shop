@@ -19,8 +19,7 @@ export default async function Header() {
       .from("case_studies")
       .select("*")
       .eq("status", "published")
-      .order("sort_order")
-      .limit(5),
+      .order("sort_order"),
   ]);
 
   return (
@@ -96,18 +95,20 @@ export default async function Header() {
               <Caret />
             </button>
             <div className="invisible absolute right-0 top-full w-64 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
-              {(cases as CaseStudy[] | null)?.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/services/case/${c.slug}`}
-                  className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
-                >
-                  {c.title}
-                </Link>
-              ))}
-              {(!cases || cases.length === 0) && (
-                <p className="px-4 py-3 text-xs text-muted">尚未發布案例</p>
-              )}
+              <div className="max-h-96 overflow-y-auto">
+                {(cases as CaseStudy[] | null)?.map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/services/case/${c.slug}`}
+                    className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
+                  >
+                    {c.title}
+                  </Link>
+                ))}
+                {(!cases || cases.length === 0) && (
+                  <p className="px-4 py-3 text-xs text-muted">尚未發布案例</p>
+                )}
+              </div>
               <Link
                 href="/services"
                 className="block border-t border-line px-4 py-3 font-mono text-xs text-brass"

@@ -31,6 +31,7 @@ export default async function AdminCasesPage() {
             <th className="py-3">案例名稱</th>
             <th>狀態</th>
             <th>排序</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +40,16 @@ export default async function AdminCasesPage() {
               <td className="py-3">{c.title}</td>
               <td>{statusLabel[c.status]}</td>
               <td className="font-mono">{c.sort_order}</td>
+              <td className="py-3 text-right">
+                <Link href={`/admin/cases/${c.id}`} className="font-mono text-xs text-brass hover:underline">
+                  編輯
+                </Link>
+              </td>
             </tr>
           ))}
           {(!cases || cases.length === 0) && (
             <tr>
-              <td colSpan={3} className="py-6 text-muted">尚未新增案例。</td>
+              <td colSpan={4} className="py-6 text-muted">尚未新增案例。</td>
             </tr>
           )}
         </tbody>

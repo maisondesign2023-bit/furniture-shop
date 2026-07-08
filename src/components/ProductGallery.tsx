@@ -7,16 +7,18 @@ import type { GalleryImage } from "@/types";
 export default function ProductGallery({
   images,
   productName,
+  mainAspectClassName = "aspect-square",
 }: {
   images: GalleryImage[];
   productName: string;
+  mainAspectClassName?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   if (images.length === 0) {
     return (
-      <div className="aspect-square w-full bg-surface flex items-center justify-center text-muted">
+      <div className={`${mainAspectClassName} w-full bg-surface flex items-center justify-center text-muted`}>
         尚未上傳圖片
       </div>
     );
@@ -34,7 +36,7 @@ export default function ProductGallery({
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
-        className="relative block aspect-square w-full overflow-hidden bg-surface cursor-zoom-in"
+        className={`relative block ${mainAspectClassName} w-full overflow-hidden bg-surface cursor-zoom-in`}
         aria-label="點擊放大圖片"
       >
         <Image
