@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import type { Category } from "@/types";
 
 export default function ProductForm({ categories }: { categories: Category[] }) {
   const supabase = createClient();
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const editorRef = useRef<RichTextEditorHandle>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +45,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
             ? Number(form.get("compare_at_price"))
             : null,
           stock: Number(form.get("stock") || 0),
-          description: form.get("description"),
+          description: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
           sizes: parseOptions(form.get("sizes") as string),
           colors: parseOptions(form.get("colors") as string),
@@ -128,7 +129,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
         </select>
       </Field>
       <Field label="商品敘述">
-        <RichTextEditor name="description" bucket="product-images" />
+        <RichTextEditor ref={editorRef} name="description" bucket="product-images" />
       </Field>
 
       <Field label={`商品圖片（最多10張，第一張為主圖），已選 ${files.length} 張`}>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import type { Category, Product } from "@/types";
 
 export default function ProductEditForm({
@@ -17,6 +17,7 @@ export default function ProductEditForm({
   const supabase = createClient();
   const router = useRouter();
   const [newFiles, setNewFiles] = useState<File[]>([]);
+  const editorRef = useRef<RichTextEditorHandle>(null);
   const [existingImages, setExistingImages] = useState(
     (product.product_images ?? []).sort((a, b) => a.sort_order - b.sort_order)
   );
@@ -52,7 +53,7 @@ export default function ProductEditForm({
             ? Number(form.get("compare_at_price"))
             : null,
           stock: Number(form.get("stock") || 0),
-          description: form.get("description"),
+          description: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
           sizes: parseOptions(form.get("sizes") as string),
           colors: parseOptions(form.get("colors") as string),
@@ -146,7 +147,7 @@ export default function ProductEditForm({
         </select>
       </Field>
       <Field label="商品敘述">
-        <RichTextEditor name="description" bucket="product-images" initialValue={product.description ?? ""} />
+        <RichTextEditor ref={editorRef} name="description" bucket="product-images" initialValue={product.description ?? ""} />
       </Field>
 
       <div>

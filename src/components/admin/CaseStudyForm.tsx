@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 
 export default function CaseStudyForm() {
   const supabase = createClient();
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const editorRef = useRef<RichTextEditorHandle>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +33,7 @@ export default function CaseStudyForm() {
           title,
           slug,
           summary: form.get("summary"),
-          content: form.get("content"),
+          content: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
           sort_order: Number(form.get("sort_order") || 0),
         })
@@ -82,7 +83,7 @@ export default function CaseStudyForm() {
         <textarea name="summary" rows={2} className="input" />
       </Field>
       <Field label="完整說明">
-        <RichTextEditor name="content" bucket="case-images" />
+        <RichTextEditor ref={editorRef} name="content" bucket="case-images" />
       </Field>
       <Field label={`案例圖片（最多10張，已選 ${files.length} 張）`}>
         <input

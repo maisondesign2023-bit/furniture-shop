@@ -1,23 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import CustomImage from "@/lib/tiptap-image";
 import { createClient } from "@/lib/supabase/client";
 
-export default function RichTextEditor({
-  name,
-  initialValue,
-  bucket,
-}: {
-  name: string;
-  initialValue?: string;
-  bucket: string;
-}) {
+export type RichTextEditorHandle = {
+  getHTML: () => string;
+};
+
+const RichTextEditor = forwardRef<
+  RichTextEditorHandle,
+  { name: string; initialValue?: string; bucket: string }
+>(function RichTextEditor({ name, initialValue, bucket }, ref) {
   const supabase = createClient();
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -29,17 +27,22 @@ export default function RichTextEditor({
     ],
     content: initialValue || "",
     immediatelyRender: false,
-    onUpdate: ({ editor }) => {
-      if (hiddenInputRef.current) {
-        hiddenInputRef.current.value = editor.getHTML();
-      }
-    },
     editorProps: {
       attributes: {
         class: "ProseMirror min-h-[240px] p-4 focus:outline-none",
       },
     },
   });
+
+  // 表單送出時，會直接呼叫這個方法拿「當下最新」的編輯器內容，
+  // 不透過隱藏欄位同步，避免存檔時抓到舊內容的問題。
+  useImperativeHandle(
+    ref,
+    () => ({
+      getHTML: () => editor?.getHTML() ?? "",
+    }),
+    [editor]
+  );
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -50,7 +53,6 @@ export default function RichTextEditor({
     if (!error) {
       const { data } = supabase.storage.from(bucket).getPublicUrl(path);
       editor.chain().focus().setImage({ src: data.publicUrl } as any).run();
-      if (hiddenInputRef.current) hiddenInputRef.current.value = editor.getHTML();
     }
     setUploading(false);
     e.target.value = "";
@@ -58,12 +60,10 @@ export default function RichTextEditor({
 
   function setImageWidth(width: string) {
     editor?.chain().focus().updateAttributes("image", { width }).run();
-    if (hiddenInputRef.current && editor) hiddenInputRef.current.value = editor.getHTML();
   }
 
   function setImageAlign(align: string) {
     editor?.chain().focus().updateAttributes("image", { align }).run();
-    if (hiddenInputRef.current && editor) hiddenInputRef.current.value = editor.getHTML();
   }
 
   if (!editor) return null;
@@ -72,8 +72,6 @@ export default function RichTextEditor({
 
   return (
     <div>
-      <input ref={hiddenInputRef} type="hidden" name={name} defaultValue={initialValue || ""} />
-
       <div className="mb-2 flex flex-wrap items-center gap-1 border border-line bg-surface p-2">
         <ToolButton active={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}>
           粗體
@@ -155,7 +153,9 @@ export default function RichTextEditor({
       </div>
     </div>
   );
-}
+});
+
+export default RichTextEditor;
 
 function ToolButton({
   children,

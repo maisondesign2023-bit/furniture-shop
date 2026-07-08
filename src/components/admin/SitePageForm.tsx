@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { SitePage } from "@/types";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 
 export default function SitePageForm({ page }: { page: SitePage }) {
   const supabase = createClient();
   const router = useRouter();
+  const editorRef = useRef<RichTextEditorHandle>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,12 +21,13 @@ export default function SitePageForm({ page }: { page: SitePage }) {
     setSaved(false);
 
     const form = new FormData(e.currentTarget);
+    const content = editorRef.current?.getHTML() ?? "";
 
     const { error: updateError } = await supabase
       .from("site_pages")
       .update({
         title: form.get("title"),
-        content: form.get("content"),
+        content,
         updated_at: new Date().toISOString(),
       })
       .eq("id", page.id);
@@ -52,7 +54,7 @@ export default function SitePageForm({ page }: { page: SitePage }) {
       </label>
       <label className="block">
         <span className="mb-1 block font-mono text-xs text-muted">內容</span>
-        <RichTextEditor name="content" bucket="site-images" initialValue={page.content ?? ""} />
+        <RichTextEditor ref={editorRef} name="content" bucket="site-images" initialValue={page.content ?? ""} />
       </label>
 
       {error && <p className="text-red-700">{error}</p>}

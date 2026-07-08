@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 
 export default function BlogPostForm() {
   const supabase = createClient();
   const router = useRouter();
+  const editorRef = useRef<RichTextEditorHandle>(null);
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +42,7 @@ export default function BlogPostForm() {
         slug,
         cover_image: coverUrl,
         excerpt: form.get("excerpt"),
-        content: form.get("content"),
+        content: editorRef.current?.getHTML() ?? "",
         status,
         seo_title: form.get("seo_title") || null,
         seo_description: form.get("seo_description") || null,
@@ -78,7 +79,7 @@ export default function BlogPostForm() {
         <textarea name="excerpt" rows={2} className="input" />
       </Field>
       <Field label="內文">
-        <RichTextEditor name="content" bucket="blog-images" />
+        <RichTextEditor ref={editorRef} name="content" bucket="blog-images" />
       </Field>
       <Field label="發布狀態">
         <select name="status" className="input" defaultValue="draft">
