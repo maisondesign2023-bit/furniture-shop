@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export default function BlogPostForm() {
   const supabase = createClient();
@@ -26,7 +27,7 @@ export default function BlogPostForm() {
     try {
       let coverUrl: string | null = null;
       if (coverFile) {
-        const path = `${Date.now()}-${coverFile.name}`;
+        const path = `${Date.now()}-${sanitizeFileName(coverFile.name)}`;
         const { error: uploadError } = await supabase.storage
           .from("blog-images")
           .upload(path, coverFile);

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import type { Category } from "@/types";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export default function ProductForm({ categories }: { categories: Category[] }) {
   const supabase = createClient();
@@ -61,7 +62,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
       // 2. 上傳圖片（最多10張）到 Supabase Storage，再寫入 product_images
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const path = `${product.id}/${Date.now()}-${i}-${file.name}`;
+        const path = `${product.id}/${Date.now()}-${i}-${sanitizeFileName(file.name)}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
           .upload(path, file);

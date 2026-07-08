@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export default function BannerForm() {
   const supabase = createClient();
@@ -23,7 +24,7 @@ export default function BannerForm() {
     const form = new FormData(e.currentTarget);
 
     try {
-      const path = `${Date.now()}-${file.name}`;
+      const path = `${Date.now()}-${sanitizeFileName(file.name)}`;
       const { error: uploadError } = await supabase.storage
         .from("banner-images")
         .upload(path, file);

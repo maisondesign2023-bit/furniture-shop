@@ -6,6 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import CustomImage from "@/lib/tiptap-image";
 import { createClient } from "@/lib/supabase/client";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export type RichTextEditorHandle = {
   getHTML: () => string;
@@ -48,7 +49,7 @@ const RichTextEditor = forwardRef<
     const file = e.target.files?.[0];
     if (!file || !editor) return;
     setUploading(true);
-    const path = `${Date.now()}-${file.name}`;
+    const path = `${Date.now()}-${sanitizeFileName(file.name)}`;
     const { error } = await supabase.storage.from(bucket).upload(path, file);
     if (!error) {
       const { data } = supabase.storage.from(bucket).getPublicUrl(path);

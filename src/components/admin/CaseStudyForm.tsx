@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export default function CaseStudyForm() {
   const supabase = createClient();
@@ -44,7 +45,7 @@ export default function CaseStudyForm() {
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const path = `${caseStudy.id}/${Date.now()}-${i}-${file.name}`;
+        const path = `${caseStudy.id}/${Date.now()}-${i}-${sanitizeFileName(file.name)}`;
         const { error: uploadError } = await supabase.storage
           .from("case-images")
           .upload(path, file);

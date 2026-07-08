@@ -6,6 +6,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import type { Category, Product } from "@/types";
+import { sanitizeFileName } from "@/lib/sanitize-filename";
 
 export default function ProductEditForm({
   product,
@@ -68,7 +69,7 @@ export default function ProductEditForm({
       // 上傳新增的圖片，接續在現有圖片後面
       for (let i = 0; i < newFiles.length; i++) {
         const file = newFiles[i];
-        const path = `${product.id}/${Date.now()}-${i}-${file.name}`;
+        const path = `${product.id}/${Date.now()}-${i}-${sanitizeFileName(file.name)}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
           .upload(path, file);
