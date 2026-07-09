@@ -36,6 +36,7 @@ export default async function AdminLayout({
           <Link href="/admin/members" className="hover:text-brass">會員管理</Link>
           <Link href="/admin/blog" className="hover:text-brass">部落格管理</Link>
           <Link href="/admin/cases" className="hover:text-brass">案例管理</Link>
+          <Link href="/admin/services-page" className="hover:text-brass">家配師服務頁面圖片</Link>
           <Link href="/admin/contacts" className="hover:text-brass">預約諮詢訊息</Link>
           <Link href="/admin/banners" className="hover:text-brass">首頁圖片管理</Link>
           <Link href="/admin/pages" className="hover:text-brass">頁面內容管理</Link>

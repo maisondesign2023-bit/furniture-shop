@@ -64,6 +64,21 @@ export type CaseStudy = {
   case_study_images?: GalleryImage[];
 };
 
+export type ServicePageSection =
+  | "hero"
+  | "furniture_design"
+  | "space_planning"
+  | "decor_styling"
+  | "furniture_rental";
+
+export type ServicePageImage = {
+  id: string;
+  section: ServicePageSection;
+  url: string;
+  alt: string | null;
+  sort_order: number;
+};
+
 export type ContactMessage = {
   id: string;
   first_name: string;
