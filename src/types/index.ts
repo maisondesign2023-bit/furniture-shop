@@ -71,8 +71,7 @@ export type ServicePageSection =
   | "hero"
   | "furniture_design"
   | "space_planning"
-  | "decor_styling"
-  | "furniture_rental";
+  | "decor_styling";
 
 export type ServicePageImage = {
   id: string;

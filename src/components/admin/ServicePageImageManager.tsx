@@ -11,7 +11,6 @@ const SECTION_LABELS: Record<ServicePageSection, string> = {
   furniture_design: "傢俱設計",
   space_planning: "規劃配置",
   decor_styling: "軟裝搭配",
-  furniture_rental: "家具租借",
 };
 
 const SECTIONS = Object.keys(SECTION_LABELS) as ServicePageSection[];

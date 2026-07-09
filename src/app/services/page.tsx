@@ -19,7 +19,6 @@ const INTRO_CARDS = [
   { num: "01", title: "傢俱設計", description: "依照尺寸、機能、色彩與面料需求，提供訂製家具與量身配置建議。" },
   { num: "02", title: "規劃配置", description: "梳理生活動線與風格方向，協助全屋家具配置、配送與安裝一次到位。" },
   { num: "03", title: "軟裝搭配", description: "透過藝品、燈飾、織品與陳列，補上空間的情緒與層次。" },
-  { num: "04", title: "家具租借", description: "適合樣品屋、商空、活動展示與短期拍攝，彈性完成空間情境。" },
 ];
 
 const SERVICES: {
@@ -53,14 +52,6 @@ const SERVICES: {
       "軟裝是空間的最後一層呼吸。藉由藝品、花器、畫作、織品與擺件，讓家更有溫度，也讓商業空間擁有可被記住的氣質。",
     tags: ["藝品搭配", "陳列提案", "織品配置", "風格整合"],
   },
-  {
-    section: "furniture_rental",
-    num: "04 / FURNITURE RENTAL",
-    title: "家具租借",
-    description:
-      "針對短期展示、樣品屋、活動佈置、影像拍攝或臨時商空需求，提供彈性的家具租借與搭配建議，快速完成空間情境。",
-    tags: ["短期展示", "樣品屋佈置", "活動拍攝", "商空情境"],
-  },
 ];
 
 const PROCESS_STEPS = [
@@ -85,7 +76,6 @@ async function getServicePageImages() {
     furniture_design: bySection("furniture_design"),
     space_planning: bySection("space_planning"),
     decor_styling: bySection("decor_styling"),
-    furniture_rental: bySection("furniture_rental"),
   };
 }
 
@@ -142,13 +132,13 @@ export default async function ServicesPage() {
         <div className="mb-10 grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:items-end">
           <div>
             <p className="mb-3 font-mono text-xs uppercase tracking-wide2 text-brass">SERVICE</p>
-            <h2 className="font-display text-2xl font-semibold text-walnut md:text-3xl">四大服務項目</h2>
+            <h2 className="font-display text-2xl font-semibold text-walnut md:text-3xl">三大服務項目</h2>
           </div>
           <p className="font-body text-sm leading-relaxed text-ink">
-            從家具本體、空間規劃、軟裝細節到短期租借需求，家配師提供一套完整的服務架構，陪您把想法落地成真正能用的空間。
+            從家具本體、空間規劃到軟裝細節，家配師提供一套完整的服務架構，陪您把想法落地成真正能用的空間。
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-3">
           {INTRO_CARDS.map((card) => (
             <div key={card.num} className="rounded-[22px] border border-line bg-paper p-6">
               <span className="font-mono text-xs text-brass">{card.num}</span>
