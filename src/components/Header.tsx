@@ -2,12 +2,12 @@ import Link from "next/link";
 import { createPublicSupabase } from "@/lib/supabase/public";
 import CartBadge from "@/components/CartBadge";
 import AuthStatus from "@/components/AuthStatus";
-import type { Category, BlogPost, CaseStudy } from "@/types";
+import type { Category, BlogPost } from "@/types";
 
 export default async function Header() {
   const supabase = createPublicSupabase();
 
-  const [{ data: categories }, { data: posts }, { data: cases }] = await Promise.all([
+  const [{ data: categories }, { data: posts }] = await Promise.all([
     supabase.from("categories").select("*").order("sort_order"),
     supabase
       .from("blog_posts")
@@ -15,11 +15,6 @@ export default async function Header() {
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(5),
-    supabase
-      .from("case_studies")
-      .select("*")
-      .eq("status", "published")
-      .order("sort_order"),
   ]);
 
   return (
@@ -88,30 +83,24 @@ export default async function Header() {
             關於我們
           </Link>
 
-          {/* 家配師服務：下拉顯示住家空間／商業空間案例 */}
+          {/* 家配師服務：點擊連到服務介紹與預約諮詢，下拉顯示住家／商業空間 */}
           <div className="group relative">
-            <button className="flex items-center gap-1 py-2 hover:text-brass">
+            <Link href="/services" className="flex items-center gap-1 py-2 hover:text-brass">
               家配師服務
               <Caret />
-            </button>
-            <div className="invisible absolute right-0 top-full w-72 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
-              <div className="max-h-96 overflow-y-auto">
-                <CaseGroup
-                  title="住家空間"
-                  href="/services/residential"
-                  cases={(cases as CaseStudy[] | null)?.filter((c) => c.space_type === "residential") ?? []}
-                />
-                <CaseGroup
-                  title="商業空間"
-                  href="/services/commercial"
-                  cases={(cases as CaseStudy[] | null)?.filter((c) => c.space_type === "commercial") ?? []}
-                />
-              </div>
+            </Link>
+            <div className="invisible absolute right-0 top-full w-48 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
               <Link
-                href="/services"
-                className="block border-t border-line px-4 py-3 font-body text-sm text-ink hover:text-brass"
+                href="/services/residential"
+                className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
               >
-                服務介紹與預約諮詢 →
+                住家空間
+              </Link>
+              <Link
+                href="/services/commercial"
+                className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
+              >
+                商業空間
               </Link>
             </div>
           </div>
@@ -127,38 +116,6 @@ export default async function Header() {
         </div>
       </div>
     </header>
-  );
-}
-
-function CaseGroup({
-  title,
-  href,
-  cases,
-}: {
-  title: string;
-  href: string;
-  cases: CaseStudy[];
-}) {
-  return (
-    <div className="border-b border-line py-1 last:border-b-0">
-      <Link
-        href={href}
-        className="flex items-center justify-between px-4 py-2 font-body text-sm font-semibold text-walnut hover:text-brass"
-      >
-        {title}
-        <span aria-hidden>→</span>
-      </Link>
-      {cases.map((c) => (
-        <Link
-          key={c.id}
-          href={`/services/case/${c.slug}`}
-          className="block px-6 py-2 font-body text-sm hover:bg-paper hover:text-brass"
-        >
-          {c.title}
-        </Link>
-      ))}
-      {cases.length === 0 && <p className="px-6 py-2 font-body text-xs text-muted">尚未發布案例</p>}
-    </div>
   );
 }
 
