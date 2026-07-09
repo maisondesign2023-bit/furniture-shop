@@ -8,10 +8,13 @@ export default function ProductGallery({
   images,
   productName,
   mainAspectClassName = "aspect-square",
+  mainMode = "cover",
 }: {
   images: GalleryImage[];
   productName: string;
   mainAspectClassName?: string;
+  /** "cover" 裁切成固定比例（預設）；"natural" 依原圖比例顯示，不裁切 */
+  mainMode?: "cover" | "natural";
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -33,21 +36,33 @@ export default function ProductGallery({
   return (
     <div>
       {/* 主圖，點擊放大 */}
-      <button
-        type="button"
-        onClick={() => setLightboxOpen(true)}
-        className={`relative block ${mainAspectClassName} w-full overflow-hidden bg-surface cursor-zoom-in`}
-        aria-label="點擊放大圖片"
-      >
-        <Image
-          src={active.url}
-          alt={active.alt || productName}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
-        />
-      </button>
+      {mainMode === "natural" ? (
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          className="block w-full overflow-hidden bg-surface cursor-zoom-in"
+          aria-label="點擊放大圖片"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- 依原圖比例顯示，寬高未知無法用 next/image 的 fill 模式 */}
+          <img src={active.url} alt={active.alt || productName} className="w-full h-auto" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          className={`relative block ${mainAspectClassName} w-full overflow-hidden bg-surface cursor-zoom-in`}
+          aria-label="點擊放大圖片"
+        >
+          <Image
+            src={active.url}
+            alt={active.alt || productName}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </button>
+      )}
 
       {/* 縮圖列，最多 10 張 */}
       <div className="mt-3 grid grid-cols-5 gap-2">

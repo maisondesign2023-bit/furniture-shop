@@ -74,7 +74,7 @@ export default async function CaseStudyPage({
       )}
 
       <div className="mt-8">
-        <ProductGallery images={images} productName={item!.title} mainAspectClassName="aspect-[16/9]" />
+        <ProductGallery images={images} productName={item!.title} mainMode="natural" />
       </div>
 
       {item!.content && (
