@@ -115,16 +115,19 @@ export default async function ServicesPage() {
               <br />
               剛好貼合生活。
             </h1>
-            <p className="mt-6 max-w-md font-body text-sm leading-loose text-muted">
+            <p className="mt-6 max-w-md font-body text-sm leading-loose text-ink">
               從單件訂製、全屋配置到軟裝陳列，家配師協助梳理需求、整合風格與預算，讓家具與空間不只是好看，更能被日常自然使用。
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#contact" className="bg-walnut px-6 py-3 font-body text-sm text-surface hover:bg-brass">
+              <a
+                href="#contact"
+                className="rounded-full bg-walnut px-6 py-3 font-body text-sm text-surface hover:bg-brass"
+              >
                 預約家配諮詢
               </a>
               <a
                 href="#services"
-                className="border border-walnut px-6 py-3 font-body text-sm text-walnut hover:border-brass hover:text-brass"
+                className="rounded-full border border-walnut px-6 py-3 font-body text-sm text-walnut hover:border-brass hover:text-brass"
               >
                 查看服務內容
               </a>
@@ -141,16 +144,16 @@ export default async function ServicesPage() {
             <p className="mb-3 font-mono text-xs uppercase tracking-wide2 text-brass">SERVICE</p>
             <h2 className="font-display text-2xl font-semibold text-walnut md:text-3xl">四大服務項目</h2>
           </div>
-          <p className="font-body text-sm leading-relaxed text-muted">
+          <p className="font-body text-sm leading-relaxed text-ink">
             從家具本體、空間規劃、軟裝細節到短期租借需求，家配師提供一套完整的服務架構，陪您把想法落地成真正能用的空間。
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {INTRO_CARDS.map((card) => (
-            <div key={card.num} className="border border-line bg-paper p-6">
+            <div key={card.num} className="rounded-[22px] border border-line bg-paper p-6">
               <span className="font-mono text-xs text-brass">{card.num}</span>
               <h3 className="mt-4 font-display text-lg font-semibold text-walnut">{card.title}</h3>
-              <p className="mt-3 font-body text-xs leading-relaxed text-muted">{card.description}</p>
+              <p className="mt-3 font-body text-xs leading-relaxed text-ink">{card.description}</p>
             </div>
           ))}
         </div>
@@ -171,10 +174,13 @@ export default async function ServicesPage() {
                 <h3 className="mt-3 font-display text-2xl font-semibold text-walnut md:text-3xl">
                   {service.title}
                 </h3>
-                <p className="mt-4 font-body text-sm leading-relaxed text-muted">{service.description}</p>
+                <p className="mt-4 font-body text-sm leading-relaxed text-ink">{service.description}</p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {service.tags.map((tag) => (
-                    <span key={tag} className="border border-line bg-paper px-3 py-1.5 font-body text-xs text-ink">
+                    <span
+                      key={tag}
+                      className="rounded-full border border-line bg-paper px-3 py-1.5 font-body text-xs text-ink"
+                    >
                       {tag}
                     </span>
                   ))}
@@ -193,13 +199,13 @@ export default async function ServicesPage() {
             <p className="mb-3 font-mono text-xs uppercase tracking-wide2 text-brass">PROCESS</p>
             <h2 className="font-display text-2xl font-semibold text-walnut md:text-3xl">從需求到完成，清楚推進</h2>
           </div>
-          <p className="font-body text-sm leading-relaxed text-muted">了解每一步在做什麼，降低第一次諮詢的門檻。</p>
+          <p className="font-body text-sm leading-relaxed text-ink">了解每一步在做什麼，降低第一次諮詢的門檻。</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {PROCESS_STEPS.map((step) => (
-            <div key={step.title} className="border border-line bg-paper p-5">
+            <div key={step.title} className="rounded-[18px] border border-line bg-paper p-5">
               <strong className="block font-body text-sm font-semibold text-walnut">{step.title}</strong>
-              <p className="mt-2 font-body text-xs leading-relaxed text-muted">{step.description}</p>
+              <p className="mt-2 font-body text-xs leading-relaxed text-ink">{step.description}</p>
             </div>
           ))}
         </div>
@@ -259,7 +265,7 @@ function HeroImages({ images }: { images: ServicePageImage[] }) {
 
 function HeroImageFrame({ image }: { image?: ServicePageImage }) {
   return (
-    <div className="relative aspect-[3/4] overflow-hidden bg-surface shadow-sm">
+    <div className="relative aspect-[3/4] overflow-hidden rounded-[22px] bg-surface shadow-sm">
       {image ? (
         <Image
           src={image.url}
@@ -278,7 +284,7 @@ function HeroImageFrame({ image }: { image?: ServicePageImage }) {
 function ServiceGallery({ images }: { images: ServicePageImage[] }) {
   if (images.length === 0) {
     return (
-      <div className="flex aspect-[16/9] items-center justify-center bg-surface font-mono text-xs text-muted">
+      <div className="flex aspect-[16/9] items-center justify-center rounded-[18px] bg-surface font-mono text-xs text-muted">
         尚未上傳圖片
       </div>
     );
@@ -288,7 +294,7 @@ function ServiceGallery({ images }: { images: ServicePageImage[] }) {
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      <div className="relative col-span-2 aspect-[16/10] overflow-hidden bg-surface">
+      <div className="relative col-span-2 aspect-[16/10] overflow-hidden rounded-[18px] bg-surface">
         <Image
           src={first.url}
           alt={first.alt || ""}
@@ -298,7 +304,7 @@ function ServiceGallery({ images }: { images: ServicePageImage[] }) {
         />
       </div>
       {rest.slice(0, 5).map((img) => (
-        <div key={img.id} className="relative aspect-square overflow-hidden bg-surface">
+        <div key={img.id} className="relative aspect-square overflow-hidden rounded-[18px] bg-surface">
           <Image
             src={img.url}
             alt={img.alt || ""}
