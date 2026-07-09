@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { createPublicSupabase } from "@/lib/supabase/public";
-import ProductGallery from "@/components/ProductGallery";
-import type { CaseStudy } from "@/types";
+import type { CaseStudy, GalleryImage } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
@@ -22,12 +21,13 @@ async function getCase(slug: string) {
   return data as CaseStudy | null;
 }
 
-async function getRelatedCases(currentId: string) {
+async function getRelatedCases(currentId: string, spaceType: string) {
   const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("case_studies")
     .select("*, case_study_images(*)")
     .eq("status", "published")
+    .eq("space_type", spaceType)
     .neq("id", currentId)
     .order("sort_order")
     .limit(3);
@@ -60,7 +60,7 @@ export default async function CaseStudyPage({
   const images = (item!.case_study_images || []).sort(
     (a, b) => a.sort_order - b.sort_order
   );
-  const relatedCases = await getRelatedCases(item!.id);
+  const relatedCases = await getRelatedCases(item!.id, item!.space_type);
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-14">
@@ -74,7 +74,7 @@ export default async function CaseStudyPage({
       )}
 
       <div className="mt-8">
-        <ProductGallery images={images} productName={item!.title} mainMode="natural" />
+        <CaseImageStack images={images} caseName={item!.title} />
       </div>
 
       {item!.content && (
@@ -117,6 +117,25 @@ export default async function CaseStudyPage({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function CaseImageStack({ images, caseName }: { images: GalleryImage[]; caseName: string }) {
+  if (images.length === 0) {
+    return (
+      <div className="flex aspect-[16/9] items-center justify-center bg-surface font-mono text-xs text-muted">
+        尚未上傳圖片
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {images.map((img) => (
+        // eslint-disable-next-line @next/next/no-img-element -- 依原圖比例顯示，寬高未知無法用 next/image 的 fill 模式
+        <img key={img.id} src={img.url} alt={img.alt || caseName} className="block w-full" />
+      ))}
     </div>
   );
 }

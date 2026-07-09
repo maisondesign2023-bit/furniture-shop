@@ -36,6 +36,7 @@ export default function CaseStudyForm() {
           summary: form.get("summary"),
           content: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
+          space_type: form.get("space_type"),
           sort_order: Number(form.get("sort_order") || 0),
         })
         .select()
@@ -96,16 +97,22 @@ export default function CaseStudyForm() {
         />
       </Field>
       <div className="grid grid-cols-2 gap-4">
+        <Field label="空間類型">
+          <select name="space_type" className="input" defaultValue="residential">
+            <option value="residential">住家空間</option>
+            <option value="commercial">商業空間</option>
+          </select>
+        </Field>
         <Field label="發布狀態">
           <select name="status" className="input" defaultValue="draft">
             <option value="draft">草稿</option>
             <option value="published">發布</option>
           </select>
         </Field>
-        <Field label="排序（數字越小越前面）">
-          <input name="sort_order" type="number" defaultValue={0} className="input" />
-        </Field>
       </div>
+      <Field label="排序（數字越小越前面）">
+        <input name="sort_order" type="number" defaultValue={0} className="input" />
+      </Field>
 
       {error && <p className="text-red-700">{error}</p>}
 

@@ -12,6 +12,7 @@ export default async function AdminCasesPage() {
     .order("sort_order");
 
   const statusLabel: Record<string, string> = { draft: "草稿", published: "已發布" };
+  const spaceTypeLabel: Record<string, string> = { residential: "住家空間", commercial: "商業空間" };
 
   return (
     <div>
@@ -29,6 +30,7 @@ export default async function AdminCasesPage() {
         <thead>
           <tr className="border-b border-line text-left font-mono text-xs text-muted">
             <th className="py-3">案例名稱</th>
+            <th>空間類型</th>
             <th>狀態</th>
             <th>排序</th>
             <th></th>
@@ -38,6 +40,7 @@ export default async function AdminCasesPage() {
           {(cases as CaseStudy[] | null)?.map((c) => (
             <tr key={c.id} className="border-b border-line">
               <td className="py-3">{c.title}</td>
+              <td>{spaceTypeLabel[c.space_type]}</td>
               <td>{statusLabel[c.status]}</td>
               <td className="font-mono">{c.sort_order}</td>
               <td className="py-3 text-right">
@@ -49,7 +52,7 @@ export default async function AdminCasesPage() {
           ))}
           {(!cases || cases.length === 0) && (
             <tr>
-              <td colSpan={4} className="py-6 text-muted">尚未新增案例。</td>
+              <td colSpan={5} className="py-6 text-muted">尚未新增案例。</td>
             </tr>
           )}
         </tbody>

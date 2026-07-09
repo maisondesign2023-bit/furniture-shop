@@ -213,7 +213,7 @@ export default async function ServicesPage() {
 
       {/* 過去案例 */}
       <div className="mx-auto max-w-6xl px-6 pb-20">
-        <h2 className="font-display text-2xl font-semibold text-walnut">過去案例</h2>
+        <h2 className="font-display text-2xl font-semibold uppercase text-walnut">PRODUCTS</h2>
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {(cases as CaseStudy[] | null)?.map((c) => {
             const cover = c.case_study_images?.[0]?.url;

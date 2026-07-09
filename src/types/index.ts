@@ -52,6 +52,8 @@ export type GalleryImage = {
   sort_order: number;
 };
 
+export type CaseSpaceType = "residential" | "commercial";
+
 export type CaseStudy = {
   id: string;
   title: string;
@@ -59,6 +61,7 @@ export type CaseStudy = {
   summary: string | null;
   content: string | null;
   status: "draft" | "published";
+  space_type: CaseSpaceType;
   sort_order: number;
   created_at: string;
   case_study_images?: GalleryImage[];

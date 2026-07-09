@@ -88,30 +88,28 @@ export default async function Header() {
             關於我們
           </Link>
 
-          {/* 家配師服務：下拉顯示過去案例 */}
+          {/* 家配師服務：下拉顯示住家空間／商業空間案例 */}
           <div className="group relative">
             <button className="flex items-center gap-1 py-2 hover:text-brass">
               家配師服務
               <Caret />
             </button>
-            <div className="invisible absolute right-0 top-full w-64 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
+            <div className="invisible absolute right-0 top-full w-72 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
               <div className="max-h-96 overflow-y-auto">
-                {(cases as CaseStudy[] | null)?.map((c) => (
-                  <Link
-                    key={c.id}
-                    href={`/services/case/${c.slug}`}
-                    className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
-                  >
-                    {c.title}
-                  </Link>
-                ))}
-                {(!cases || cases.length === 0) && (
-                  <p className="px-4 py-3 text-xs text-muted">尚未發布案例</p>
-                )}
+                <CaseGroup
+                  title="住家空間"
+                  href="/services/residential"
+                  cases={(cases as CaseStudy[] | null)?.filter((c) => c.space_type === "residential") ?? []}
+                />
+                <CaseGroup
+                  title="商業空間"
+                  href="/services/commercial"
+                  cases={(cases as CaseStudy[] | null)?.filter((c) => c.space_type === "commercial") ?? []}
+                />
               </div>
               <Link
                 href="/services"
-                className="block border-t border-line px-4 py-3 font-mono text-xs text-brass"
+                className="block border-t border-line px-4 py-3 font-body text-sm text-ink hover:text-brass"
               >
                 服務介紹與預約諮詢 →
               </Link>
@@ -129,6 +127,38 @@ export default async function Header() {
         </div>
       </div>
     </header>
+  );
+}
+
+function CaseGroup({
+  title,
+  href,
+  cases,
+}: {
+  title: string;
+  href: string;
+  cases: CaseStudy[];
+}) {
+  return (
+    <div className="border-b border-line py-1 last:border-b-0">
+      <Link
+        href={href}
+        className="flex items-center justify-between px-4 py-2 font-body text-sm font-semibold text-walnut hover:text-brass"
+      >
+        {title}
+        <span aria-hidden>→</span>
+      </Link>
+      {cases.map((c) => (
+        <Link
+          key={c.id}
+          href={`/services/case/${c.slug}`}
+          className="block px-6 py-2 font-body text-sm hover:bg-paper hover:text-brass"
+        >
+          {c.title}
+        </Link>
+      ))}
+      {cases.length === 0 && <p className="px-6 py-2 font-body text-xs text-muted">尚未發布案例</p>}
+    </div>
   );
 }
 
