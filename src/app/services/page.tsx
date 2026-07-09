@@ -104,7 +104,7 @@ export default async function ServicesPage() {
     <div>
       {/* Hero */}
       <section className="border-b border-line bg-surface/40">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-2 md:items-center">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-[1fr_1.3fr] md:items-center">
           <div>
             <div className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-wide2 text-brass">
               <span className="h-px w-8 bg-brass" />
@@ -265,7 +265,7 @@ function HeroImages({ images }: { images: ServicePageImage[] }) {
 
 function HeroImageFrame({ image }: { image?: ServicePageImage }) {
   return (
-    <div className="relative aspect-[3/4] overflow-hidden rounded-[22px] bg-surface shadow-sm">
+    <div className="relative aspect-[2/3] overflow-hidden rounded-[22px] bg-surface shadow-sm">
       {image ? (
         <Image
           src={image.url}
