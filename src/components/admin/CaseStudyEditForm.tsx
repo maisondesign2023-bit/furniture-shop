@@ -7,6 +7,7 @@ import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/Ri
 import SortableImageGrid, { type SortableImage } from "@/components/admin/SortableImageGrid";
 import type { CaseStudy } from "@/types";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
+import { slugify } from "@/lib/slugify";
 
 export default function CaseStudyEditForm({ caseStudy }: { caseStudy: CaseStudy }) {
   const supabase = createClient();
@@ -53,7 +54,7 @@ export default function CaseStudyEditForm({ caseStudy }: { caseStudy: CaseStudy 
         .from("case_studies")
         .update({
           title: form.get("title"),
-          slug: form.get("slug"),
+          slug: slugify((form.get("slug") as string) || (form.get("title") as string), "case"),
           summary: form.get("summary"),
           content: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),

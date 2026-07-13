@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
+import { slugify } from "@/lib/slugify";
 
 export default function BlogPostForm() {
   const supabase = createClient();
@@ -21,7 +22,7 @@ export default function BlogPostForm() {
 
     const form = new FormData(e.currentTarget);
     const title = form.get("title") as string;
-    const slug = (form.get("slug") as string) || slugify(title);
+    const slug = slugify((form.get("slug") as string) || title, "post");
     const status = form.get("status") as string;
 
     try {
@@ -132,13 +133,4 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       {children}
     </label>
   );
-}
-
-function slugify(text: string) {
-  const cleaned = text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return cleaned || `post-${Date.now()}`;
 }

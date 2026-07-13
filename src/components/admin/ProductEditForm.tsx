@@ -8,6 +8,7 @@ import SizePriceEditor, { type SizePriceEditorHandle } from "@/components/admin/
 import SortableImageGrid, { type SortableImage } from "@/components/admin/SortableImageGrid";
 import type { Category, Product } from "@/types";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
+import { slugify } from "@/lib/slugify";
 
 export default function ProductEditForm({
   product,
@@ -61,6 +62,7 @@ export default function ProductEditForm({
         .from("products")
         .update({
           name: form.get("name"),
+          slug: slugify((form.get("slug") as string) || (form.get("name") as string), "product"),
           category_id: form.get("category_id") || null,
           price: Number(form.get("price")),
           compare_at_price: form.get("compare_at_price")
@@ -121,6 +123,9 @@ export default function ProductEditForm({
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6 font-body text-sm">
       <Field label="商品名稱">
         <input name="name" defaultValue={product.name} required className="input" />
+      </Field>
+      <Field label="網址代稱 slug（英文/數字，會自動轉換格式）">
+        <input name="slug" defaultValue={product.slug} className="input" />
       </Field>
       <Field label="分類">
         <select name="category_id" defaultValue={product.category_id ?? ""} className="input">

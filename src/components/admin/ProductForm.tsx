@@ -7,6 +7,7 @@ import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/Ri
 import SizePriceEditor, { type SizePriceEditorHandle } from "@/components/admin/SizePriceEditor";
 import type { Category } from "@/types";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
+import { slugify } from "@/lib/slugify";
 
 export default function ProductForm({ categories }: { categories: Category[] }) {
   const supabase = createClient();
@@ -29,7 +30,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
 
     const form = new FormData(e.currentTarget);
     const name = form.get("name") as string;
-    const slug = (form.get("slug") as string) || slugify(name);
+    const slug = slugify((form.get("slug") as string) || name, "product");
 
     try {
       const {
@@ -186,15 +187,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       {children}
     </label>
   );
-}
-
-function slugify(text: string) {
-  const cleaned = text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return cleaned || `product-${Date.now()}`;
 }
 
 function parseOptions(value: string | null) {
