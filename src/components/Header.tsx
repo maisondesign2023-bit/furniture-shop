@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createPublicSupabase } from "@/lib/supabase/public";
 import CartBadge from "@/components/CartBadge";
 import AuthStatus from "@/components/AuthStatus";
+import MobileNav from "@/components/MobileNav";
 import type { Category, BlogPost } from "@/types";
 
 export default async function Header() {
@@ -18,11 +19,14 @@ export default async function Header() {
   ]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur relative">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-display text-xl font-semibold text-walnut">
-          VERO Living
-        </Link>
+        <div className="flex items-center gap-2">
+          <MobileNav categories={(categories as Category[]) ?? []} posts={(posts as BlogPost[]) ?? []} />
+          <Link href="/" className="font-display text-xl font-semibold text-walnut">
+            VERO Living
+          </Link>
+        </div>
 
         <nav className="hidden gap-8 font-body text-sm tracking-wide2 text-ink md:flex">
           {/* 商品分類：下拉顯示分類 */}
