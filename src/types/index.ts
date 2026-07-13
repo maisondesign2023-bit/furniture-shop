@@ -16,6 +16,11 @@ export type ProductImage = {
   sort_order: number;
 };
 
+export type SizePrice = {
+  label: string;
+  price: number;
+};
+
 export type Product = {
   id: string;
   category_id: string | null;
@@ -30,6 +35,7 @@ export type Product = {
   seo_title: string | null;
   seo_description: string | null;
   sizes: string[];
+  size_prices: SizePrice[];
   colors: string[];
   created_by?: string | null;
   product_images?: ProductImage[];

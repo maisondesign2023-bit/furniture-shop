@@ -2,33 +2,52 @@
 
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
+import type { SizePrice } from "@/types";
 
 export default function AddToCartButton({
   productId,
   name,
   slug,
   price,
+  compareAtPrice,
   image,
-  sizes = [],
+  sizePrices = [],
   colors = [],
 }: {
   productId: string;
   name: string;
   slug: string;
   price: number;
+  compareAtPrice?: number | null;
   image: string | null;
-  sizes?: string[];
+  sizePrices?: SizePrice[];
   colors?: string[];
 }) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(sizes[0] || "");
+  const hasSizePricing = sizePrices.length > 0;
+  const [selectedSize, setSelectedSize] = useState(hasSizePricing ? sizePrices[0].label : "");
   const [selectedColor, setSelectedColor] = useState(colors[0] || "");
+
+  const currentPrice = hasSizePricing
+    ? sizePrices.find((s) => s.label === selectedSize)?.price ?? price
+    : price;
 
   return (
     <div className="space-y-4">
-      {sizes.length > 0 && (
+      <div className="flex items-baseline gap-3">
+        <p className="font-mono text-2xl tracking-wide2 text-walnut">
+          NT$ {currentPrice.toLocaleString()}
+        </p>
+        {!hasSizePricing && compareAtPrice && (
+          <p className="font-mono text-sm text-muted line-through">
+            NT$ {compareAtPrice.toLocaleString()}
+          </p>
+        )}
+      </div>
+
+      {hasSizePricing && (
         <label className="block">
           <span className="mb-1 block font-mono text-xs text-muted">尺寸</span>
           <select
@@ -36,9 +55,9 @@ export default function AddToCartButton({
             onChange={(e) => setSelectedSize(e.target.value)}
             className="w-full border border-line bg-surface px-4 py-3 font-body text-sm focus:border-brass"
           >
-            {sizes.map((s) => (
-              <option key={s} value={s}>
-                {s}
+            {sizePrices.map((s) => (
+              <option key={s.label} value={s.label}>
+                {s.label}（NT$ {s.price.toLocaleString()}）
               </option>
             ))}
           </select>
@@ -90,7 +109,7 @@ export default function AddToCartButton({
               productId,
               name,
               slug,
-              price,
+              price: currentPrice,
               image,
               quantity: qty,
               selectedSize: selectedSize || null,

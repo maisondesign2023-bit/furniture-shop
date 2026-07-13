@@ -45,7 +45,7 @@ export default function ProductGallery({
           fill
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
+          className="object-contain"
         />
       </button>
 
@@ -57,7 +57,7 @@ export default function ProductGallery({
             type="button"
             onClick={() => setActiveIndex(i)}
             onMouseEnter={() => setActiveIndex(i)}
-            className={`relative aspect-square overflow-hidden border ${
+            className={`relative aspect-square overflow-hidden border bg-surface ${
               i === activeIndex ? "border-brass" : "border-line"
             }`}
             aria-label={`檢視第 ${i + 1} 張圖片`}
@@ -67,7 +67,7 @@ export default function ProductGallery({
               alt={img.alt || `${productName} 圖片 ${i + 1}`}
               fill
               sizes="10vw"
-              className="object-cover"
+              className="object-contain"
             />
           </button>
         ))}

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
+import SizePriceEditor, { type SizePriceEditorHandle } from "@/components/admin/SizePriceEditor";
 import SortableImageGrid, { type SortableImage } from "@/components/admin/SortableImageGrid";
 import type { Category, Product } from "@/types";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
@@ -19,6 +20,7 @@ export default function ProductEditForm({
   const router = useRouter();
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const editorRef = useRef<RichTextEditorHandle>(null);
+  const sizePriceRef = useRef<SizePriceEditorHandle>(null);
   const [existingImages, setExistingImages] = useState<SortableImage[]>(
     (product.product_images ?? [])
       .slice()
@@ -67,7 +69,7 @@ export default function ProductEditForm({
           stock: Number(form.get("stock") || 0),
           description: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
-          sizes: parseOptions(form.get("sizes") as string),
+          size_prices: sizePriceRef.current?.getValue() ?? [],
           colors: parseOptions(form.get("colors") as string),
           seo_title: form.get("seo_title") || null,
           seo_description: form.get("seo_description") || null,
@@ -145,9 +147,7 @@ export default function ProductEditForm({
       <Field label="庫存數量">
         <input name="stock" type="number" defaultValue={product.stock} className="input" />
       </Field>
-      <Field label="尺寸選項（用逗號分開，例如：S,M,L；不需要就留空）">
-        <input name="sizes" defaultValue={(product.sizes ?? []).join(",")} className="input" />
-      </Field>
+      <SizePriceEditor ref={sizePriceRef} initialValue={product.size_prices ?? []} />
       <Field label="顏色選項（用逗號分開，例如：白色,黑色,原木色；不需要就留空）">
         <input name="colors" defaultValue={(product.colors ?? []).join(",")} className="input" />
       </Field>
@@ -170,6 +170,7 @@ export default function ProductEditForm({
           images={existingImages}
           onReorder={reorderExistingImages}
           onRemove={removeExistingImage}
+          objectFit="contain"
         />
       </div>
 

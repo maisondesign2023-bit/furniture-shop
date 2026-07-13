@@ -9,11 +9,18 @@ import {
 } from "react";
 import type { CartItem } from "@/types";
 
+// 同一個商品選了不同尺寸/顏色時要當成不同的購物車項目，不能合併
+export function getCartItemKey(
+  item: Pick<CartItem, "productId" | "selectedSize" | "selectedColor">
+) {
+  return `${item.productId}::${item.selectedSize ?? ""}::${item.selectedColor ?? ""}`;
+}
+
 type CartContextType = {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (key: string) => void;
+  updateQuantity: (key: string, quantity: number) => void;
   clear: () => void;
   subtotal: number;
   count: number;
@@ -44,10 +51,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   function addItem(item: CartItem) {
     setItems((prev) => {
-      const existing = prev.find((i) => i.productId === item.productId);
+      const key = getCartItemKey(item);
+      const existing = prev.find((i) => getCartItemKey(i) === key);
       if (existing) {
         return prev.map((i) =>
-          i.productId === item.productId
+          getCartItemKey(i) === key
             ? { ...i, quantity: i.quantity + item.quantity }
             : i
         );
@@ -56,14 +64,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  function removeItem(productId: string) {
-    setItems((prev) => prev.filter((i) => i.productId !== productId));
+  function removeItem(key: string) {
+    setItems((prev) => prev.filter((i) => getCartItemKey(i) !== key));
   }
 
-  function updateQuantity(productId: string, quantity: number) {
-    if (quantity <= 0) return removeItem(productId);
+  function updateQuantity(key: string, quantity: number) {
+    if (quantity <= 0) return removeItem(key);
     setItems((prev) =>
-      prev.map((i) => (i.productId === productId ? { ...i, quantity } : i))
+      prev.map((i) => (getCartItemKey(i) === key ? { ...i, quantity } : i))
     );
   }
 

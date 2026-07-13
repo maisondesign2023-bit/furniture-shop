@@ -6,6 +6,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const images = product.product_images ?? [];
   const cover = images[0]?.url;
   const hoverImage = images[1]?.url;
+  const sizePrices = product.size_prices ?? [];
+  const minPrice = sizePrices.length > 0 ? Math.min(...sizePrices.map((s) => s.price)) : product.price;
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
@@ -17,7 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
               alt={images[0]?.alt || product.name}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              className={`object-cover transition-opacity duration-500 ${
+              className={`object-contain transition-opacity duration-500 ${
                 hoverImage ? "group-hover:opacity-0" : "group-hover:scale-105"
               }`}
             />
@@ -27,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 alt={images[1]?.alt || product.name}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
-                className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                className="object-contain opacity-0 transition-opacity duration-500 group-hover:opacity-100"
               />
             )}
           </>
@@ -37,7 +39,9 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="mt-3 space-y-1">
         <h3 className="font-body text-sm text-ink">{product.name}</h3>
-        <p className="price-tag">NT$ {product.price.toLocaleString()}</p>
+        <p className="price-tag">
+          {sizePrices.length > 0 ? `NT$ ${minPrice.toLocaleString()} 起` : `NT$ ${product.price.toLocaleString()}`}
+        </p>
       </div>
     </Link>
   );

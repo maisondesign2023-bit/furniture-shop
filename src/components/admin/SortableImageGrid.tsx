@@ -27,10 +27,13 @@ export default function SortableImageGrid({
   images,
   onReorder,
   onRemove,
+  objectFit = "cover",
 }: {
   images: SortableImage[];
   onReorder: (images: SortableImage[]) => void;
   onRemove: (id: string) => void;
+  /** "cover" 裁切填滿（預設）；"contain" 依原圖比例完整顯示，不裁切 */
+  objectFit?: "cover" | "contain";
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -50,7 +53,7 @@ export default function SortableImageGrid({
       <SortableContext items={images.map((img) => img.id)} strategy={rectSortingStrategy}>
         <div className="grid grid-cols-5 gap-2">
           {images.map((img) => (
-            <SortableImageItem key={img.id} image={img} onRemove={onRemove} />
+            <SortableImageItem key={img.id} image={img} onRemove={onRemove} objectFit={objectFit} />
           ))}
         </div>
       </SortableContext>
@@ -61,9 +64,11 @@ export default function SortableImageGrid({
 function SortableImageItem({
   image,
   onRemove,
+  objectFit,
 }: {
   image: SortableImage;
   onRemove: (id: string) => void;
+  objectFit: "cover" | "contain";
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: image.id,
@@ -80,11 +85,16 @@ function SortableImageItem({
       style={style}
       {...attributes}
       {...listeners}
-      className={`group relative aspect-square touch-none cursor-grab overflow-hidden border border-line active:cursor-grabbing ${
+      className={`group relative aspect-square touch-none cursor-grab overflow-hidden border border-line bg-surface active:cursor-grabbing ${
         isDragging ? "z-10 opacity-70" : ""
       }`}
     >
-      <Image src={image.url} alt={image.alt || ""} fill className="pointer-events-none object-cover" />
+      <Image
+        src={image.url}
+        alt={image.alt || ""}
+        fill
+        className={`pointer-events-none ${objectFit === "contain" ? "object-contain" : "object-cover"}`}
+      />
       <button
         type="button"
         onPointerDown={(e) => e.stopPropagation()}

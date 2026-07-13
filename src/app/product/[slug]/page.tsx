@@ -56,10 +56,14 @@ export default async function ProductPage({
     (a, b) => a.sort_order - b.sort_order
   );
 
+  const sizePrices = product!.size_prices ?? [];
+  const minPrice =
+    sizePrices.length > 0 ? Math.min(...sizePrices.map((s) => s.price)) : product!.price;
+
   const jsonLd = productJsonLd({
     name: product!.name,
     description: product!.description ? stripHtml(product!.description) : null,
-    price: product!.price,
+    price: minPrice,
     images: images.map((i) => i.url),
     slug: product!.slug,
     inStock: product!.stock > 0,
@@ -85,18 +89,7 @@ export default async function ProductPage({
             {product!.name}
           </h1>
 
-          <div className="mt-4 flex items-baseline gap-3">
-            <p className="font-mono text-2xl tracking-wide2 text-walnut">
-              NT$ {product!.price.toLocaleString()}
-            </p>
-            {product!.compare_at_price && (
-              <p className="font-mono text-sm text-muted line-through">
-                NT$ {product!.compare_at_price.toLocaleString()}
-              </p>
-            )}
-          </div>
-
-          <p className="mt-2 font-mono text-xs text-muted">
+          <p className="mt-4 font-mono text-xs text-muted">
             {product!.stock > 0 ? `現貨 ${product!.stock} 件` : "缺貨中"}
           </p>
 
@@ -108,8 +101,9 @@ export default async function ProductPage({
               name={product!.name}
               slug={product!.slug}
               price={product!.price}
+              compareAtPrice={product!.compare_at_price}
               image={images[0]?.url ?? null}
-              sizes={product!.sizes}
+              sizePrices={sizePrices}
               colors={product!.colors}
             />
           </div>

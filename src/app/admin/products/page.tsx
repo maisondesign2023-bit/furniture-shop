@@ -46,7 +46,11 @@ export default async function AdminProductsPage() {
             <tr key={p.id} className="border-b border-line">
               <td className="py-3">{p.name}</td>
               <td>{p.categories?.name ?? "—"}</td>
-              <td className="font-mono">NT$ {p.price.toLocaleString()}</td>
+              <td className="font-mono">
+                {p.size_prices && p.size_prices.length > 0
+                  ? `NT$ ${Math.min(...p.size_prices.map((s: { price: number }) => s.price)).toLocaleString()} 起`
+                  : `NT$ ${p.price.toLocaleString()}`}
+              </td>
               <td className="font-mono">{p.stock}</td>
               <td>{statusLabel[p.status]}</td>
               <td className="font-mono text-xs text-muted">

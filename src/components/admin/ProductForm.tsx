@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import RichTextEditor, { type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
+import SizePriceEditor, { type SizePriceEditorHandle } from "@/components/admin/SizePriceEditor";
 import type { Category } from "@/types";
 import { sanitizeFileName } from "@/lib/sanitize-filename";
 
@@ -12,6 +13,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
   const editorRef = useRef<RichTextEditorHandle>(null);
+  const sizePriceRef = useRef<SizePriceEditorHandle>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,7 +50,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
           stock: Number(form.get("stock") || 0),
           description: editorRef.current?.getHTML() ?? "",
           status: form.get("status"),
-          sizes: parseOptions(form.get("sizes") as string),
+          size_prices: sizePriceRef.current?.getValue() ?? [],
           colors: parseOptions(form.get("colors") as string),
           seo_title: form.get("seo_title") || null,
           seo_description: form.get("seo_description") || null,
@@ -116,9 +118,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
       <Field label="庫存數量">
         <input name="stock" type="number" defaultValue={0} className="input" />
       </Field>
-      <Field label="尺寸選項（用逗號分開，例如：S,M,L；不需要就留空）">
-        <input name="sizes" className="input" placeholder="S,M,L" />
-      </Field>
+      <SizePriceEditor ref={sizePriceRef} />
       <Field label="顏色選項（用逗號分開，例如：白色,黑色,原木色；不需要就留空）">
         <input name="colors" className="input" placeholder="白色,黑色,原木色" />
       </Field>
