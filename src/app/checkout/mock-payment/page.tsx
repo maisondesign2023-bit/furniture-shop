@@ -1,13 +1,35 @@
 "use client";
 
-import { Suspense } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function MockPaymentContent() {
   const params = useSearchParams();
+  const router = useRouter();
   const orderNo = params.get("orderNo");
   const amount = params.get("amount");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleComplete() {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/payment/mock-complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNo }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || "模擬付款失敗，請稍後再試");
+      }
+      router.push("/checkout/success");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "發生錯誤");
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="mx-auto max-w-md px-6 py-24 text-center">
@@ -21,12 +43,17 @@ function MockPaymentContent() {
       <p className="mt-2 font-body text-xs text-muted">
         正式上線前請將此頁替換為綠界／藍新的真實付款流程。
       </p>
-      <Link
-        href="/checkout/success"
-        className="mt-8 inline-block bg-walnut px-6 py-3 font-body text-sm tracking-wide2 text-surface hover:bg-brass"
+
+      {error && <p className="mt-4 font-body text-sm text-red-700">{error}</p>}
+
+      <button
+        type="button"
+        onClick={handleComplete}
+        disabled={submitting}
+        className="mt-8 bg-walnut px-6 py-3 font-body text-sm tracking-wide2 text-surface hover:bg-brass disabled:opacity-50"
       >
-        模擬付款完成
-      </Link>
+        {submitting ? "處理中…" : "模擬付款完成"}
+      </button>
     </div>
   );
 }

@@ -152,6 +152,8 @@ export type CartItem = {
 export type Order = {
   id: string;
   order_no: string;
+  user_id: string | null;
+  email: string | null;
   status:
     | "pending_payment"
     | "paid"
@@ -166,5 +168,8 @@ export type Order = {
   recipient_name: string;
   recipient_phone: string;
   shipping_address: string;
+  payment_provider: string | null;
+  payment_trade_no: string | null;
+  paid_at: string | null;
   created_at: string;
 };

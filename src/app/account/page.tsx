@@ -1,6 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import AccountAuthForm from "@/components/AccountAuthForm";
 import SignOutButton from "@/components/SignOutButton";
+import PayNowButton from "@/components/PayNowButton";
 import type { Order } from "@/types";
 
 export const runtime = "edge";
@@ -54,6 +55,7 @@ export default async function AccountPage() {
             <p className="mt-2 font-mono text-lg text-walnut">
               NT$ {order.total.toLocaleString()}
             </p>
+            {order.status === "pending_payment" && <PayNowButton orderId={order.id} />}
           </div>
         ))}
         {(!orders || orders.length === 0) && (
