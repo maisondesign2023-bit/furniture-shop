@@ -3,6 +3,8 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+export const runtime = "edge";
+
 function MockPaymentContent() {
   const params = useSearchParams();
   const router = useRouter();

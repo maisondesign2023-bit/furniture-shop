@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart, getCartItemKey } from "@/lib/cart-context";
 
+export const runtime = "edge";
+
 export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
 
