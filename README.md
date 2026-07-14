@@ -1,5 +1,7 @@
 # 家具購物網站
 
+<!-- deploy trigger: verifying new Cloudflare Pages API token -->
+
 Next.js 14 (App Router) + Supabase + Tailwind CSS 打造的家具電商網站骨架。
 包含：SEO、商品分類、購物車、會員系統、後台管理、金流串接預留介面。
 
