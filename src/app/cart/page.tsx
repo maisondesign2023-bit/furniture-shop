@@ -31,7 +31,7 @@ export default function CartPage() {
           const key = getCartItemKey(item);
           return (
             <div key={key} className="flex gap-4 border-b border-line pb-6">
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden bg-surface">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden bg-paper">
                 {item.image && (
                   <Image src={item.image} alt={item.name} fill className="object-contain" />
                 )}

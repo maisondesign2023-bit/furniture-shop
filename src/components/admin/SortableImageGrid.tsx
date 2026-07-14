@@ -85,9 +85,9 @@ function SortableImageItem({
       style={style}
       {...attributes}
       {...listeners}
-      className={`group relative aspect-square touch-none cursor-grab overflow-hidden border border-line bg-surface active:cursor-grabbing ${
-        isDragging ? "z-10 opacity-70" : ""
-      }`}
+      className={`group relative aspect-square touch-none cursor-grab overflow-hidden border border-line active:cursor-grabbing ${
+        objectFit === "contain" ? "bg-paper" : "bg-surface"
+      } ${isDragging ? "z-10 opacity-70" : ""}`}
     >
       <Image
         src={image.url}

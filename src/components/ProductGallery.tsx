@@ -18,7 +18,7 @@ export default function ProductGallery({
 
   if (images.length === 0) {
     return (
-      <div className={`${mainAspectClassName} w-full bg-surface flex items-center justify-center text-muted`}>
+      <div className={`${mainAspectClassName} w-full bg-paper flex items-center justify-center text-muted`}>
         尚未上傳圖片
       </div>
     );
@@ -36,7 +36,7 @@ export default function ProductGallery({
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
-        className={`relative block ${mainAspectClassName} w-full overflow-hidden bg-surface cursor-zoom-in`}
+        className={`relative block ${mainAspectClassName} w-full overflow-hidden bg-paper cursor-zoom-in`}
         aria-label="點擊放大圖片"
       >
         <Image
@@ -57,7 +57,7 @@ export default function ProductGallery({
             type="button"
             onClick={() => setActiveIndex(i)}
             onMouseEnter={() => setActiveIndex(i)}
-            className={`relative aspect-square overflow-hidden border bg-surface ${
+            className={`relative aspect-square overflow-hidden border bg-paper ${
               i === activeIndex ? "border-brass" : "border-line"
             }`}
             aria-label={`檢視第 ${i + 1} 張圖片`}
