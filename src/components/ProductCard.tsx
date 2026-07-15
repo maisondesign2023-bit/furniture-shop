@@ -3,7 +3,9 @@ import Link from "next/link";
 import type { Product } from "@/types";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const images = product.product_images ?? [];
+  const images = (product.product_images ?? [])
+    .slice()
+    .sort((a, b) => a.sort_order - b.sort_order);
   const cover = images[0]?.url;
   const hoverImage = images[1]?.url;
   const sizePrices = product.size_prices ?? [];

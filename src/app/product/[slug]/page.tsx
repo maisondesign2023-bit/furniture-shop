@@ -5,6 +5,7 @@ import ProductGallery from "@/components/ProductGallery";
 import AddToCartButton from "@/components/AddToCartButton";
 import type { Product } from "@/types";
 import { buildMetadata, productJsonLd } from "@/lib/seo";
+import { getCoverImage } from "@/lib/get-cover-image";
 
 export const runtime = "edge";
 
@@ -41,7 +42,7 @@ export async function generateMetadata({
       (product.description ? stripHtml(product.description).slice(0, 150) : "") ||
       product.name,
     path: `/product/${product.slug}`,
-    image: product.product_images?.[0]?.url,
+    image: getCoverImage(product.product_images),
   });
 }
 

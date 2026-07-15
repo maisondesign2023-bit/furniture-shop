@@ -5,6 +5,7 @@ import Image from "next/image";
 import { createPublicSupabase } from "@/lib/supabase/public";
 import type { CaseStudy, GalleryImage } from "@/types";
 import { buildMetadata } from "@/lib/seo";
+import { getCoverImage } from "@/lib/get-cover-image";
 
 export const runtime = "edge";
 
@@ -46,7 +47,7 @@ export async function generateMetadata({
     title: item.title,
     description: item.summary || item.title,
     path: `/services/case/${item.slug}`,
-    image: item.case_study_images?.[0]?.url,
+    image: getCoverImage(item.case_study_images),
   });
 }
 
@@ -90,7 +91,7 @@ export default async function CaseStudyPage({
           <h2 className="font-display text-xl font-semibold text-walnut">相關案例</h2>
           <div className="mt-6 grid gap-8 sm:grid-cols-3">
             {relatedCases.map((c) => {
-              const cover = c.case_study_images?.[0]?.url;
+              const cover = getCoverImage(c.case_study_images);
               return (
                 <Link key={c.id} href={`/services/case/${c.slug}`} className="group block">
                   <div className="relative aspect-[4/3] overflow-hidden bg-surface">

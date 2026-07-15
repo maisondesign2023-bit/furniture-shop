@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { createPublicSupabase } from "@/lib/supabase/public";
 import type { CaseStudy, CaseSpaceType } from "@/types";
 import { buildMetadata } from "@/lib/seo";
+import { getCoverImage } from "@/lib/get-cover-image";
 
 export const runtime = "edge";
 
@@ -59,7 +60,7 @@ export default async function ServiceSpaceTypePage({
 
       <div className="mt-10 grid gap-8 md:grid-cols-3">
         {(cases as CaseStudy[] | null)?.map((c) => {
-          const cover = c.case_study_images?.[0]?.url;
+          const cover = getCoverImage(c.case_study_images);
           return (
             <Link key={c.id} href={`/services/case/${c.slug}`} className="group block">
               <div className="relative aspect-[4/3] overflow-hidden bg-surface">

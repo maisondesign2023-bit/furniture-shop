@@ -4,6 +4,7 @@ import { createPublicSupabase } from "@/lib/supabase/public";
 import type { CaseStudy, ServicePageImage, ServicePageSection } from "@/types";
 import { buildMetadata } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
+import { getCoverImage } from "@/lib/get-cover-image";
 
 export const runtime = "edge";
 
@@ -207,7 +208,7 @@ export default async function ServicesPage() {
         <h2 className="font-display text-2xl font-semibold uppercase text-walnut">PRODUCTS</h2>
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {(cases as CaseStudy[] | null)?.map((c) => {
-            const cover = c.case_study_images?.[0]?.url;
+            const cover = getCoverImage(c.case_study_images);
             return (
               <Link key={c.id} href={`/services/case/${c.slug}`} className="group block">
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface">
