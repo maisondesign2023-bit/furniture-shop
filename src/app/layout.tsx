@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Noto_Serif_TC, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import Header from "@/components/Header";
@@ -10,6 +10,13 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   weight: ["400", "500", "600"],
   style: ["normal"],
+});
+// Fraunces 不支援中文字，中文標題會 fallback 到系統字體，導致手機/桌機粗體效果不一致。
+// 補一套有明確粗細字重的中文襯線字體，讓中文標題在所有裝置上都用同一套字體檔案顯示。
+const notoSerifTC = Noto_Serif_TC({
+  subsets: ["latin"],
+  variable: "--font-noto-serif-tc",
+  weight: ["500", "600", "700"],
 });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const mono = IBM_Plex_Mono({
@@ -30,7 +37,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-Hant">
-      <body className={`${fraunces.variable} ${inter.variable} ${mono.variable}`}>
+      <body className={`${fraunces.variable} ${notoSerifTC.variable} ${inter.variable} ${mono.variable}`}>
         <CartProvider>
           <Header />
           <main className="min-h-screen">{children}</main>

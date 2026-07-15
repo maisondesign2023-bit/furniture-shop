@@ -16,7 +16,7 @@ const config: Config = {
         muted: "#8A8177",      // 次要文字
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "serif"],
+        display: ["var(--font-fraunces)", "var(--font-noto-serif-tc)", "serif"],
         body: ["var(--font-inter)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },

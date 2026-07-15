@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
-import type { Product, ShelfProduct } from "@/types";
+import type { Product, ProductShelf, ShelfProduct } from "@/types";
 import ShelfProductManager from "@/components/admin/ShelfProductManager";
+import ShelfSettingsForm from "@/components/admin/ShelfSettingsForm";
 
 export const runtime = "edge";
 
@@ -39,6 +40,10 @@ export default async function AdminShelfDetailPage({
       <p className="mt-2 font-body text-sm text-muted">選擇要放進這個貨架的商品。</p>
 
       <div className="mt-8">
+        <ShelfSettingsForm shelf={shelf as ProductShelf} />
+      </div>
+
+      <div className="mt-10">
         <ShelfProductManager
           shelfId={params.id}
           allProducts={(allProducts as Product[]) ?? []}

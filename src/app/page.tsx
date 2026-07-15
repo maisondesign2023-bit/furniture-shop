@@ -169,12 +169,24 @@ function ProductShelfSection({
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <h2 className="font-display text-2xl font-semibold text-walnut">{shelf.title}</h2>
+      <h2 className="text-center font-display text-2xl font-semibold text-walnut">
+        {shelf.title}
+      </h2>
       <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
       </div>
+      {shelf.link_url && (
+        <div className="mt-10 text-center">
+          <Link
+            href={shelf.link_url}
+            className="inline-block bg-walnut px-8 py-3 font-body text-sm tracking-wide2 text-surface hover:bg-brass"
+          >
+            查看更多
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

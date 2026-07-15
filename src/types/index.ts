@@ -114,6 +114,7 @@ export type ProductShelf = {
   title: string;
   sort_order: number;
   is_active: boolean;
+  link_url: string | null;
 };
 
 export type ShelfProduct = {
