@@ -8,7 +8,8 @@ import { buildMetadata, productJsonLd } from "@/lib/seo";
 
 export const runtime = "edge";
 
-export const revalidate = 3600;
+// 這頁流量低，改成每次都抓最新資料，確保後台編輯完前台馬上看得到
+export const revalidate = 0;
 
 // SEO 用的描述文字要是純文字，不能有 HTML 標籤
 function stripHtml(html: string) {

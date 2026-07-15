@@ -8,7 +8,8 @@ import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
 
-export const revalidate = 3600;
+// 這頁流量低，改成每次都抓最新資料，確保後台編輯完前台馬上看得到
+export const revalidate = 0;
 
 const TYPE_LABELS: Record<CaseSpaceType, string> = {
   residential: "住家空間",

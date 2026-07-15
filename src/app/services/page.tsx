@@ -13,7 +13,8 @@ export const metadata = buildMetadata({
   path: "/services",
 });
 
-export const revalidate = 3600;
+// 這頁流量低，改成每次都抓最新資料，確保後台編輯完前台馬上看得到
+export const revalidate = 0;
 
 const INTRO_CARDS = [
   { num: "01", title: "傢俱設計", description: "依照尺寸、機能、色彩與面料需求，提供訂製家具與量身配置建議。" },
