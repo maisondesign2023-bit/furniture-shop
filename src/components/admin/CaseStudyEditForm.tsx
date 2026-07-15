@@ -35,11 +35,16 @@ export default function CaseStudyEditForm({ caseStudy }: { caseStudy: CaseStudy 
 
   async function reorderExistingImages(reordered: SortableImage[]) {
     setExistingImages(reordered);
-    await Promise.all(
-      reordered.map((img, i) =>
-        supabase.from("case_study_images").update({ sort_order: i }).eq("id", img.id)
-      )
-    );
+    for (let i = 0; i < reordered.length; i++) {
+      const { error } = await supabase
+        .from("case_study_images")
+        .update({ sort_order: i })
+        .eq("id", reordered[i].id);
+      if (error) {
+        alert(`圖片排序更新失敗：${error.message}\n請重新整理頁面再試一次。`);
+        return;
+      }
+    }
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
