@@ -1,6 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import type { ProductShelf } from "@/types";
 import ShelfCreateForm from "@/components/admin/ShelfCreateForm";
+import DeleteShelfButton from "@/components/admin/DeleteShelfButton";
 import Link from "next/link";
 
 export const runtime = "edge";
@@ -25,16 +26,24 @@ export default async function AdminShelvesPage() {
 
       <div className="mt-10 space-y-3">
         {(shelves as ProductShelf[] | null)?.map((s) => (
-          <Link
+          <div
             key={s.id}
-            href={`/admin/shelves/${s.id}`}
-            className="flex items-center justify-between border border-line p-4 font-body text-sm hover:border-brass"
+            className="flex items-center justify-between border border-line p-4 font-body text-sm"
           >
             <span>{s.title}</span>
-            <span className="font-mono text-xs text-muted">
-              排序 {s.sort_order} · {s.is_active ? "啟用中" : "已停用"} → 管理商品
-            </span>
-          </Link>
+            <div className="flex items-center gap-5">
+              <span className="font-mono text-xs text-muted">
+                排序 {s.sort_order} · {s.is_active ? "啟用中" : "已停用"}
+              </span>
+              <Link
+                href={`/admin/shelves/${s.id}`}
+                className="font-mono text-xs text-brass hover:underline"
+              >
+                編輯 / 管理商品 →
+              </Link>
+              <DeleteShelfButton shelfId={s.id} shelfTitle={s.title} />
+            </div>
+          </div>
         ))}
         {(!shelves || shelves.length === 0) && (
           <p className="font-body text-sm text-muted">尚未建立貨架。</p>
