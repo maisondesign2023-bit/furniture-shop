@@ -23,7 +23,6 @@ export default function ShelfSettingsForm({ shelf }: { shelf: ProductShelf }) {
         title: form.get("title"),
         sort_order: Number(form.get("sort_order") || 0),
         is_active: form.get("is_active") === "on",
-        link_url: (form.get("link_url") as string) || null,
       })
       .eq("id", shelf.id);
 
@@ -65,18 +64,6 @@ export default function ShelfSettingsForm({ shelf }: { shelf: ProductShelf }) {
           <span className="font-mono text-xs text-muted">啟用中</span>
         </label>
       </div>
-      <label className="block">
-        <span className="mb-1 block font-mono text-xs text-muted">
-          「查看更多」按鈕連結（選填，留空則不顯示按鈕，例如 /category/living-room）
-        </span>
-        <input
-          name="link_url"
-          defaultValue={shelf.link_url ?? ""}
-          placeholder="/category/living-room"
-          className="w-full border border-line bg-surface px-4 py-3"
-        />
-      </label>
-
       {error && <p className="text-red-700">{error}</p>}
 
       <button
