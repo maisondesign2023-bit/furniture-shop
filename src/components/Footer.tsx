@@ -18,7 +18,9 @@ export default function Footer() {
             <Link href="/about" className="hover:text-brass">關於我們</Link>
           </div>
           <div className="flex flex-col gap-2">
-            <span>客服信箱：service@example.com</span>
+            <span>統一編號：90116468</span>
+            <span>連絡電話：02-27480075</span>
+            <span>客服信箱：Maisondesign2023@gmail.com</span>
             <span>週一至週五 10:00–18:00</span>
           </div>
         </div>
