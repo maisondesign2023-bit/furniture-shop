@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     payload[key] = String(value);
   });
 
-  const result = ecpayProvider.verifyCallback(payload);
+  const result = await ecpayProvider.verifyCallback(payload);
 
   if (result.isValid) {
     const supabase = createAdminSupabase();

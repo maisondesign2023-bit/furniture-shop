@@ -20,11 +20,11 @@ export type PaymentSessionResult = {
 export interface PaymentProvider {
   name: "ecpay" | "newebpay";
   createPaymentSession(input: PaymentSessionInput): Promise<PaymentSessionResult>;
-  verifyCallback(payload: Record<string, string>): {
+  verifyCallback(payload: Record<string, string>): Promise<{
     isValid: boolean;
     orderNo: string;
     tradeNo: string;
-  };
+  }>;
 }
 
 // 尚未決定廠商前的暫時 mock，讓結帳流程可以先跑通測試
@@ -39,7 +39,7 @@ export const mockPaymentProvider: PaymentProvider = {
       },
     };
   },
-  verifyCallback(payload) {
+  async verifyCallback(payload) {
     return { isValid: true, orderNo: payload.orderNo, tradeNo: "MOCK" };
   },
 };
