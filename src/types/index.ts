@@ -171,5 +171,8 @@ export type Order = {
   payment_provider: string | null;
   payment_trade_no: string | null;
   paid_at: string | null;
+  shipping_carrier: string | null;
+  tracking_number: string | null;
+  tracking_url: string | null;
   created_at: string;
 };

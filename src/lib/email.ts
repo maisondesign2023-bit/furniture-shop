@@ -3,12 +3,42 @@ const FROM_EMAIL = process.env.EMAIL_FROM || "onboarding@resend.dev";
 const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "";
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "家具品牌";
 
+type OrderItemInfo = {
+  product_name: string;
+  variant?: string | null;
+  quantity: number;
+  unit_price: number;
+};
+
 type OrderInfo = {
   order_no: string;
   recipient_name: string;
   total: number;
   email?: string | null;
+  items?: OrderItemInfo[];
 };
+
+function itemsListHtml(items?: OrderItemInfo[]) {
+  if (!items || items.length === 0) return "";
+  const rows = items
+    .map(
+      (i) => `
+        <tr>
+          <td style="padding:6px 0; border-bottom:1px solid #E2DED8;">
+            ${i.product_name}${i.variant ? `（${i.variant}）` : ""} × ${i.quantity}
+          </td>
+          <td style="padding:6px 0; border-bottom:1px solid #E2DED8; text-align:right; white-space:nowrap;">
+            NT$ ${(i.unit_price * i.quantity).toLocaleString()}
+          </td>
+        </tr>`
+    )
+    .join("");
+  return `
+    <table style="width:100%; border-collapse:collapse; margin:16px 0; font-size:14px;">
+      ${rows}
+    </table>
+  `;
+}
 
 async function sendEmail(to: string, subject: string, html: string) {
   if (!RESEND_API_KEY) {
@@ -62,6 +92,7 @@ export async function sendOrderCreatedEmails(order: OrderInfo) {
     `
       <p>${order.recipient_name} 您好，感謝您的訂購。</p>
       <p>訂單編號：<strong>${order.order_no}</strong></p>
+      ${itemsListHtml(order.items)}
       <p>訂單金額：NT$ ${order.total.toLocaleString()}</p>
       <p>請完成付款程序，我們收到付款後會盡快為您安排出貨。</p>
     `
@@ -72,6 +103,7 @@ export async function sendOrderCreatedEmails(order: OrderInfo) {
     `
       <p>收件人：${order.recipient_name}</p>
       <p>訂單編號：${order.order_no}</p>
+      ${itemsListHtml(order.items)}
       <p>金額：NT$ ${order.total.toLocaleString()}</p>
       <p>狀態：待付款</p>
     `

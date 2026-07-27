@@ -66,6 +66,12 @@ export async function POST(req: Request) {
     recipient_name: order.recipient_name,
     total: order.total,
     email: order.email,
+    items: orderItems.map((i: { product_name: string; variant: string | null; quantity: number; unit_price: number }) => ({
+      product_name: i.product_name,
+      variant: i.variant,
+      quantity: i.quantity,
+      unit_price: i.unit_price,
+    })),
   });
 
   // 使用上面依環境判斷好的 paymentProvider（有綠界金鑰就是真實付款，否則是模擬付款）

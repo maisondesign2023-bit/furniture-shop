@@ -1,5 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase/server";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
+import ShippingInfoEditor from "@/components/admin/ShippingInfoEditor";
+import type { Order } from "@/types";
 
 export const runtime = "edge";
 
@@ -21,17 +23,21 @@ export default async function AdminOrdersPage() {
             <th>收件人</th>
             <th>金額</th>
             <th>狀態</th>
+            <th>物流</th>
             <th>建立時間</th>
           </tr>
         </thead>
         <tbody>
-          {(orders as any[] | null)?.map((o) => (
+          {(orders as Order[] | null)?.map((o) => (
             <tr key={o.id} className="border-b border-line">
               <td className="py-3 font-mono text-xs">{o.order_no}</td>
               <td>{o.recipient_name}</td>
               <td className="font-mono">NT$ {o.total.toLocaleString()}</td>
               <td>
                 <OrderStatusSelect orderId={o.id} currentStatus={o.status} />
+              </td>
+              <td>
+                <ShippingInfoEditor order={o} />
               </td>
               <td className="font-mono text-xs text-muted">
                 {new Date(o.created_at).toLocaleString("zh-TW")}
@@ -40,7 +46,7 @@ export default async function AdminOrdersPage() {
           ))}
           {(!orders || orders.length === 0) && (
             <tr>
-              <td colSpan={5} className="py-6 text-muted">尚無訂單。</td>
+              <td colSpan={6} className="py-6 text-muted">尚無訂單。</td>
             </tr>
           )}
         </tbody>

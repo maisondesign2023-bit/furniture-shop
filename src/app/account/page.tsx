@@ -56,6 +56,21 @@ export default async function AccountPage() {
               NT$ {order.total.toLocaleString()}
             </p>
             {order.status === "pending_payment" && <PayNowButton orderId={order.id} />}
+            {(order.tracking_number || order.tracking_url) && (
+              <p className="mt-3 font-mono text-xs text-muted">
+                {order.shipping_carrier} {order.tracking_number}
+                {order.tracking_url && (
+                  <a
+                    href={order.tracking_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-2 text-brass hover:underline"
+                  >
+                    查詢物流 →
+                  </a>
+                )}
+              </p>
+            )}
           </div>
         ))}
         {(!orders || orders.length === 0) && (
