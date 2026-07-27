@@ -49,6 +49,7 @@ export default async function CategoryPage({
     .select("*, product_images(*)")
     .eq("status", "published")
     .eq("category_id", category!.id)
+    .order("sort_order")
     .order("created_at", { ascending: false });
 
   return (

@@ -34,6 +34,7 @@ export type Product = {
   status: "draft" | "published" | "archived";
   seo_title: string | null;
   seo_description: string | null;
+  sort_order: number;
   sizes: string[];
   size_prices: SizePrice[];
   colors: string[];

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
-import type { Product } from "@/types";
+import AdminProductTable from "@/components/admin/AdminProductTable";
 
 export const runtime = "edge";
 
@@ -9,13 +9,8 @@ export default async function AdminProductsPage() {
   const { data: products } = await supabase
     .from("products")
     .select("*, categories(name), profiles(full_name)")
+    .order("sort_order")
     .order("created_at", { ascending: false });
-
-  const statusLabel: Record<string, string> = {
-    draft: "草稿",
-    published: "已上架",
-    archived: "已下架",
-  };
 
   return (
     <div>
@@ -28,46 +23,11 @@ export default async function AdminProductsPage() {
           + 新增商品
         </Link>
       </div>
+      <p className="mt-2 font-mono text-xs text-muted">
+        拖曳左側圖示可調整商品在分類頁的顯示順序。
+      </p>
 
-      <table className="mt-8 w-full font-body text-sm">
-        <thead>
-          <tr className="border-b border-line text-left font-mono text-xs text-muted">
-            <th className="py-3">商品名稱</th>
-            <th>分類</th>
-            <th>價格</th>
-            <th>庫存</th>
-            <th>狀態</th>
-            <th>上架人員</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {(products as any[] | null)?.map((p) => (
-            <tr key={p.id} className="border-b border-line">
-              <td className="py-3">{p.name}</td>
-              <td>{p.categories?.name ?? "—"}</td>
-              <td className="font-mono">
-                {p.size_prices && p.size_prices.length > 0
-                  ? `NT$ ${Math.min(...p.size_prices.map((s: { price: number }) => s.price)).toLocaleString()} 起`
-                  : `NT$ ${p.price.toLocaleString()}`}
-              </td>
-              <td className="font-mono">{p.stock}</td>
-              <td>{statusLabel[p.status]}</td>
-              <td className="font-mono text-xs text-muted">
-                {p.profiles?.full_name || "—"}
-              </td>
-              <td>
-                <Link
-                  href={`/admin/products/${p.id}`}
-                  className="font-mono text-xs text-brass hover:underline"
-                >
-                  編輯
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <AdminProductTable initialProducts={products ?? []} />
     </div>
   );
 }
