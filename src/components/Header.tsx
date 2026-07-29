@@ -24,7 +24,7 @@ export default async function Header() {
         <div className="flex items-center gap-2">
           <MobileNav categories={(categories as Category[]) ?? []} posts={(posts as BlogPost[]) ?? []} />
           <Link href="/" className="font-display text-xl font-semibold text-walnut">
-            VERO Living
+            Bova Living
           </Link>
         </div>
 
