@@ -119,7 +119,12 @@ export default function ProductEditForm({
   async function handleDeleteProduct() {
     if (!confirm(`確定要刪除「${product.name}」這個商品嗎？此動作無法復原。`)) return;
     setDeleting(true);
-    await supabase.from("products").delete().eq("id", product.id);
+    const { error: deleteError } = await supabase.from("products").delete().eq("id", product.id);
+    setDeleting(false);
+    if (deleteError) {
+      alert(`刪除失敗：${deleteError.message}\n\n如果這個商品已經有人下單過，建議改成「已下架」狀態，而不是直接刪除。`);
+      return;
+    }
     router.push("/admin/products");
     router.refresh();
   }
