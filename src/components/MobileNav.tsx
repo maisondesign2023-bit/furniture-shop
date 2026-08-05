@@ -33,16 +33,21 @@ export default function MobileNav({
             <div className="px-6 py-4">
               <p className="mb-2 font-mono text-xs text-muted">商品分類</p>
               <div className="flex flex-col gap-3">
-                {categories.map((c) => (
-                  <Link
-                    key={c.id}
-                    href={`/category/${c.slug}`}
-                    onClick={() => setOpen(false)}
-                    className="hover:text-brass"
-                  >
-                    {c.name}
-                  </Link>
-                ))}
+                <Link href="/products" onClick={() => setOpen(false)} className="hover:text-brass">
+                  全部商品
+                </Link>
+                {categories
+                  .filter((c) => !c.parent_id)
+                  .map((c) => (
+                    <Link
+                      key={c.id}
+                      href={`/products?category=${c.slug}`}
+                      onClick={() => setOpen(false)}
+                      className="hover:text-brass"
+                    >
+                      {c.name}
+                    </Link>
+                  ))}
                 {categories.length === 0 && <p className="font-mono text-xs text-muted">尚未建立分類</p>}
               </div>
             </div>

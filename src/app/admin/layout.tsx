@@ -31,6 +31,7 @@ export default async function AdminLayout({
         <nav className="mt-6 flex flex-col gap-3 font-body text-sm">
           <Link href="/admin" className="hover:text-brass">總覽</Link>
           <Link href="/admin/products" className="hover:text-brass">商品管理</Link>
+          <Link href="/admin/categories" className="hover:text-brass">商品分類管理</Link>
           <Link href="/admin/shelves" className="hover:text-brass">商品貨架管理</Link>
           <Link href="/admin/orders" className="hover:text-brass">訂單管理</Link>
           <Link href="/admin/members" className="hover:text-brass">會員管理</Link>

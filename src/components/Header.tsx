@@ -31,20 +31,25 @@ export default async function Header() {
         <nav className="hidden gap-8 font-body text-sm tracking-wide2 text-ink md:flex">
           {/* 商品分類：下拉顯示分類 */}
           <div className="group relative">
-            <button className="flex items-center gap-1 py-2 hover:text-brass">
+            <Link href="/products" className="flex items-center gap-1 py-2 hover:text-brass">
               商品分類
               <Caret />
-            </button>
+            </Link>
             <div className="invisible absolute left-0 top-full w-48 border border-line bg-surface opacity-0 shadow-sm transition group-hover:visible group-hover:opacity-100">
-              {(categories as Category[] | null)?.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/category/${c.slug}`}
-                  className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
-                >
-                  {c.name}
-                </Link>
-              ))}
+              <Link href="/products" className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass">
+                全部商品
+              </Link>
+              {(categories as Category[] | null)
+                ?.filter((c) => !c.parent_id)
+                .map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/products?category=${c.slug}`}
+                    className="block px-4 py-3 text-sm hover:bg-paper hover:text-brass"
+                  >
+                    {c.name}
+                  </Link>
+                ))}
               {(!categories || categories.length === 0) && (
                 <p className="px-4 py-3 text-xs text-muted">尚未建立分類</p>
               )}
