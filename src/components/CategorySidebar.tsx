@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import type { Category } from "@/types";
 
@@ -23,6 +26,17 @@ export default function CategorySidebar({
   const selected = selectedSlug ? categories.find((c) => c.slug === selectedSlug) : undefined;
   const activeTopId = selected ? selected.parent_id ?? selected.id : null;
 
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(activeTopId ? [activeTopId] : []));
+
+  function toggle(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
   return (
     <aside className="w-full shrink-0 md:w-56">
       <p className="mb-4 font-display text-lg text-walnut">商品分類</p>
@@ -46,15 +60,28 @@ export default function CategorySidebar({
         {topLevel.map((top) => {
           const children = childrenOf(top.id);
           const isActiveBranch = activeTopId === top.id;
+          const isExpanded = isActiveBranch || expanded.has(top.id);
           return (
             <div key={top.id} className="border-b border-line">
-              <Link
-                href={`/products?category=${top.slug}`}
-                className={`block py-3 ${isActiveBranch ? "font-semibold text-brass" : "hover:text-brass"}`}
-              >
-                {top.name}
-              </Link>
-              {isActiveBranch && children.length > 0 && (
+              <div className="flex items-center justify-between">
+                <Link
+                  href={`/products?category=${top.slug}`}
+                  className={`flex-1 py-3 ${isActiveBranch ? "font-semibold text-brass" : "hover:text-brass"}`}
+                >
+                  {top.name}
+                </Link>
+                {children.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => toggle(top.id)}
+                    aria-label={isExpanded ? `收合${top.name}` : `展開${top.name}`}
+                    className="px-2 py-3 font-mono text-base leading-none text-muted hover:text-brass"
+                  >
+                    {isExpanded ? "－" : "＋"}
+                  </button>
+                )}
+              </div>
+              {isExpanded && children.length > 0 && (
                 <div className="flex flex-col gap-1 pb-3 pl-4">
                   {children.map((child) => (
                     <Link
