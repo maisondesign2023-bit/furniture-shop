@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LineButton from "@/components/LineButton";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <LineButton />
         </CartProvider>
       </body>
     </html>
