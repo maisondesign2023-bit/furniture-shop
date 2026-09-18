@@ -36,9 +36,22 @@ export default function AdminProductTable({ initialProducts }: { initialProducts
   const supabase = createClient();
   const router = useRouter();
   const [products, setProducts] = useState(initialProducts);
+  const [search, setSearch] = useState("");
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   );
+
+  const keyword = search.trim().toLowerCase();
+  const filtered = keyword
+    ? products.filter((p) => {
+        return (
+          p.name.toLowerCase().includes(keyword) ||
+          (p.sku ?? "").toLowerCase().includes(keyword) ||
+          (p.categories?.name ?? "").toLowerCase().includes(keyword)
+        );
+      })
+    : products;
+  const isFiltering = keyword.length > 0;
 
   async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -64,36 +77,91 @@ export default function AdminProductTable({ initialProducts }: { initialProducts
   }
 
   return (
-    <table className="mt-8 w-full font-body text-sm">
-      <thead>
-        <tr className="border-b border-line text-left font-mono text-xs text-muted">
-          <th className="w-8 py-3"></th>
-          <th>商品名稱</th>
-          <th>分類</th>
-          <th>價格</th>
-          <th>庫存</th>
-          <th>狀態</th>
-          <th>上架人員</th>
-          <th></th>
-        </tr>
-      </thead>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={products.map((p) => p.id)} strategy={verticalListSortingStrategy}>
+    <div>
+      <div className="mt-8 flex items-center gap-3">
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="搜尋商品名稱、SKU 或分類…"
+          className="w-full max-w-xs border border-line bg-surface px-4 py-2.5 font-body text-sm focus:border-brass"
+        />
+        {isFiltering && (
+          <span className="font-mono text-xs text-muted">
+            共 {filtered.length} 筆符合，搜尋時無法拖曳排序
+          </span>
+        )}
+      </div>
+
+      <table className="mt-4 w-full font-body text-sm">
+        <thead>
+          <tr className="border-b border-line text-left font-mono text-xs text-muted">
+            <th className="w-8 py-3"></th>
+            <th>商品名稱</th>
+            <th>分類</th>
+            <th>價格</th>
+            <th>庫存</th>
+            <th>狀態</th>
+            <th>上架人員</th>
+            <th></th>
+          </tr>
+        </thead>
+        {isFiltering ? (
           <tbody>
-            {products.map((p) => (
-              <SortableProductRow key={p.id} product={p} />
+            {filtered.map((p) => (
+              <ProductRow key={p.id} product={p} />
             ))}
-            {products.length === 0 && (
+            {filtered.length === 0 && (
               <tr>
                 <td colSpan={8} className="py-6 text-muted">
-                  尚無商品。
+                  找不到符合「{search}」的商品。
                 </td>
               </tr>
             )}
           </tbody>
-        </SortableContext>
-      </DndContext>
-    </table>
+        ) : (
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={products.map((p) => p.id)} strategy={verticalListSortingStrategy}>
+              <tbody>
+                {products.map((p) => (
+                  <SortableProductRow key={p.id} product={p} />
+                ))}
+                {products.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="py-6 text-muted">
+                      尚無商品。
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </SortableContext>
+          </DndContext>
+        )}
+      </table>
+    </div>
+  );
+}
+
+function ProductRow({ product: p, dragHandle }: { product: Row; dragHandle?: React.ReactNode }) {
+  return (
+    <tr className="border-b border-line">
+      <td className="py-3">{dragHandle}</td>
+      <td>{p.name}</td>
+      <td>{p.categories?.name ?? "—"}</td>
+      <td className="font-mono">
+        {p.size_prices && p.size_prices.length > 0
+          ? `NT$ ${Math.min(...p.size_prices.map((s) => s.price)).toLocaleString()} 起`
+          : `NT$ ${p.price.toLocaleString()}`}
+      </td>
+      <td className="font-mono">{p.stock}</td>
+      <td>{STATUS_LABEL[p.status]}</td>
+      <td className="font-mono text-xs text-muted">{p.profiles?.full_name || "—"}</td>
+      <td>
+        <Link href={`/admin/products/${p.id}`} className="font-mono text-xs text-brass hover:underline">
+          編輯
+        </Link>
+      </td>
+    </tr>
   );
 }
 
