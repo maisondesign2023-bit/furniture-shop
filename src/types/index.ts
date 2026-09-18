@@ -139,6 +139,20 @@ export type BlogPost = {
   created_at: string;
 };
 
+export type Activity = {
+  id: string;
+  title: string;
+  slug: string;
+  cover_image: string | null;
+  excerpt: string | null;
+  content: string | null;
+  status: "draft" | "published";
+  seo_title: string | null;
+  seo_description: string | null;
+  published_at: string | null;
+  created_at: string;
+};
+
 export type CartItem = {
   productId: string;
   name: string;
