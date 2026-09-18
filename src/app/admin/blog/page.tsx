@@ -34,6 +34,7 @@ export default async function AdminBlogPage() {
             <th className="py-3">標題</th>
             <th>狀態</th>
             <th>建立時間</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -44,11 +45,16 @@ export default async function AdminBlogPage() {
               <td className="font-mono text-xs text-muted">
                 {new Date(p.created_at).toLocaleDateString("zh-TW")}
               </td>
+              <td>
+                <Link href={`/admin/blog/${p.id}`} className="font-mono text-xs text-brass hover:underline">
+                  編輯
+                </Link>
+              </td>
             </tr>
           ))}
           {(!posts || posts.length === 0) && (
             <tr>
-              <td colSpan={3} className="py-6 text-muted">尚未新增文章。</td>
+              <td colSpan={4} className="py-6 text-muted">尚未新增文章。</td>
             </tr>
           )}
         </tbody>
