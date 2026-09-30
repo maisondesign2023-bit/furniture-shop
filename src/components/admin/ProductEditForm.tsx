@@ -75,6 +75,7 @@ export default function ProductEditForm({
             : null,
           stock: Number(form.get("stock") || 0),
           description: editorRef.current?.getHTML() ?? "",
+          notes: form.get("notes") || null,
           status: form.get("status"),
           size_prices: sizePriceRef.current?.getValue() ?? [],
           colors: parseOptions(form.get("colors") as string),
@@ -175,6 +176,9 @@ export default function ProductEditForm({
       </Field>
       <Field label="商品敘述">
         <RichTextEditor ref={editorRef} name="description" bucket="product-images" initialValue={product.description ?? ""} />
+      </Field>
+      <Field label="注意事項（選填，會顯示在商品頁「加入購物車」和「商品敘述」中間，例如保養方式、訂製須知）">
+        <textarea name="notes" defaultValue={product.notes ?? ""} rows={3} className="input" />
       </Field>
 
       <div>

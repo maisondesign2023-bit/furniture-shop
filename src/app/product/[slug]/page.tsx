@@ -110,6 +110,12 @@ export default async function ProductPage({
             />
           </div>
 
+          {product!.notes && (
+            <p className="mt-6 whitespace-pre-line font-body text-xs leading-relaxed text-muted">
+              {product!.notes}
+            </p>
+          )}
+
           <div className="mt-10">
             <h2 className="font-display text-lg font-semibold text-walnut mb-4">商品敘述</h2>
             <div

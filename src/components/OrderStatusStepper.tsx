@@ -1,24 +1,14 @@
 import type { Order } from "@/types";
 
-const STEPS = ["待出貨", "已出貨", "訂單完成"] as const;
-
-// 現有訂單狀態沒有獨立的「已到貨」欄位（不像大型平台有串接物流商的到貨通知），
-// 所以「已到貨」用「訂單完成」代表——賣家確認完成訂單，等於客人已經收到貨。
-function getReachedStep(status: Order["status"]): number {
-  switch (status) {
-    case "pending_payment":
-      return -1; // 都還沒付款，連「待出貨」都還沒算開始
-    case "paid":
-    case "processing":
-      return 0;
-    case "shipped":
-      return 1;
-    case "completed":
-      return 2;
-    default:
-      return -2; // cancelled / refunded，交給外層特殊處理
-  }
-}
+// 直接對應訂單的 5 個非終止狀態，一個狀態一步，不做合併
+// （現有訂單狀態沒有獨立的「已到貨」欄位，賣家在後台標記「已完成」就代表客人已收到貨）
+const STEPS: { status: Order["status"]; label: string }[] = [
+  { status: "pending_payment", label: "未付款" },
+  { status: "paid", label: "已付款" },
+  { status: "processing", label: "待出貨" },
+  { status: "shipped", label: "已出貨" },
+  { status: "completed", label: "訂單完成" },
+];
 
 export default function OrderStatusStepper({ order }: { order: Order }) {
   if (order.status === "cancelled" || order.status === "refunded") {
@@ -29,15 +19,15 @@ export default function OrderStatusStepper({ order }: { order: Order }) {
     );
   }
 
-  const reached = getReachedStep(order.status);
+  const reached = STEPS.findIndex((s) => s.status === order.status);
 
   return (
     <div className="mt-5 flex items-start">
-      {STEPS.map((label, i) => {
+      {STEPS.map((step, i) => {
         const done = i <= reached;
         const isLast = i === STEPS.length - 1;
         return (
-          <div key={label} className={`flex items-start ${isLast ? "" : "flex-1"}`}>
+          <div key={step.status} className={`flex items-start ${isLast ? "" : "flex-1"}`}>
             <div className="flex flex-col items-center">
               <div
                 className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 font-mono text-xs ${
@@ -51,7 +41,7 @@ export default function OrderStatusStepper({ order }: { order: Order }) {
                   done ? "text-walnut" : "text-muted"
                 }`}
               >
-                {label}
+                {step.label}
               </span>
             </div>
             {!isLast && (
