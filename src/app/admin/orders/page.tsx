@@ -67,6 +67,7 @@ export default async function AdminOrdersPage({
             <th>金額</th>
             <th>狀態</th>
             <th>物流</th>
+            <th>備註</th>
             <th>建立時間</th>
           </tr>
         </thead>
@@ -82,6 +83,9 @@ export default async function AdminOrdersPage({
               <td>
                 <ShippingInfoEditor order={o} />
               </td>
+              <td className="max-w-[180px] whitespace-pre-line font-mono text-xs text-muted">
+                {o.note || "—"}
+              </td>
               <td className="font-mono text-xs text-muted">
                 {new Date(o.created_at).toLocaleString("zh-TW")}
               </td>
@@ -89,7 +93,7 @@ export default async function AdminOrdersPage({
           ))}
           {filteredOrders.length === 0 && (
             <tr>
-              <td colSpan={6} className="py-6 text-muted">
+              <td colSpan={7} className="py-6 text-muted">
                 {activeStatus === "all" ? "尚無訂單。" : "這個狀態目前沒有訂單。"}
               </td>
             </tr>

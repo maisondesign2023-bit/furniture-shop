@@ -11,7 +11,7 @@ const paymentProvider = process.env.ECPAY_MERCHANT_ID ? ecpayProvider : mockPaym
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { recipientName, recipientPhone, shippingAddress, items, subtotal } = body;
+  const { recipientName, recipientPhone, shippingAddress, note, items, subtotal } = body;
 
   if (!items || items.length === 0) {
     return NextResponse.json({ error: "購物車是空的" }, { status: 400 });
@@ -36,6 +36,7 @@ export async function POST(req: Request) {
       recipient_name: recipientName,
       recipient_phone: recipientPhone,
       shipping_address: shippingAddress,
+      note: note || null,
       status: "pending_payment",
     })
     .select()

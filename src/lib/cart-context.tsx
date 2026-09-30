@@ -24,13 +24,17 @@ type CartContextType = {
   clear: () => void;
   subtotal: number;
   count: number;
+  note: string;
+  setNote: (note: string) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = "furniture-shop-cart";
+const NOTE_STORAGE_KEY = "furniture-shop-cart-note";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [note, setNote] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -42,12 +46,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
         // 忽略壞掉的資料
       }
     }
+    setNote(localStorage.getItem(NOTE_STORAGE_KEY) ?? "");
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items, hydrated]);
+
+  useEffect(() => {
+    if (hydrated) localStorage.setItem(NOTE_STORAGE_KEY, note);
+  }, [note, hydrated]);
 
   function addItem(item: CartItem) {
     setItems((prev) => {
@@ -77,6 +86,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   function clear() {
     setItems([]);
+    setNote("");
   }
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
@@ -84,7 +94,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clear, subtotal, count }}
+      value={{ items, addItem, removeItem, updateQuantity, clear, subtotal, count, note, setNote }}
     >
       {children}
     </CartContext.Provider>

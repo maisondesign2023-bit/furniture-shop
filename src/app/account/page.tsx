@@ -78,6 +78,13 @@ export default async function AccountPage() {
                 )}
               </div>
             )}
+
+            {order.note && (
+              <div className="mt-5 border-t border-line pt-4 font-mono text-xs text-muted">
+                <span className="text-ink">訂單備註：</span>
+                <span className="whitespace-pre-line">{order.note}</span>
+              </div>
+            )}
           </div>
         ))}
         {(!orders || orders.length === 0) && (

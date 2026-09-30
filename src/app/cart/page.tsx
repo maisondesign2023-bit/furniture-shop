@@ -7,7 +7,7 @@ import { useCart, getCartItemKey } from "@/lib/cart-context";
 export const runtime = "edge";
 
 export default function CartPage() {
-  const { items, updateQuantity, removeItem, subtotal } = useCart();
+  const { items, updateQuantity, removeItem, subtotal, note, setNote } = useCart();
 
   if (items.length === 0) {
     return (
@@ -81,7 +81,19 @@ export default function CartPage() {
         })}
       </div>
 
-      <div className="mt-10 flex items-center justify-between">
+      <div className="mt-10">
+        <label className="mb-1 block font-mono text-xs text-muted">
+          訂單備註（選填，例如希望的送貨時段、組裝需求等）
+        </label>
+        <textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          rows={3}
+          className="w-full border border-line bg-surface px-4 py-3 font-body text-sm focus:border-brass"
+        />
+      </div>
+
+      <div className="mt-6 flex items-center justify-between">
         <span className="font-body text-muted">小計</span>
         <span className="font-mono text-xl text-walnut">
           NT$ {subtotal.toLocaleString()}

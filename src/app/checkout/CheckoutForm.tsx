@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 
 export default function CheckoutForm() {
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal, clear, note } = useCart();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,6 +18,7 @@ export default function CheckoutForm() {
       recipientName: form.get("recipientName"),
       recipientPhone: form.get("recipientPhone"),
       shippingAddress: form.get("shippingAddress"),
+      note,
       items,
       subtotal,
     };
