@@ -2,6 +2,7 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import AccountAuthForm from "@/components/AccountAuthForm";
 import SignOutButton from "@/components/SignOutButton";
 import PayNowButton from "@/components/PayNowButton";
+import OrderStatusStepper from "@/components/OrderStatusStepper";
 import type { Order } from "@/types";
 
 export const runtime = "edge";
@@ -55,21 +56,27 @@ export default async function AccountPage() {
             <p className="mt-2 font-mono text-lg text-walnut">
               NT$ {order.total.toLocaleString()}
             </p>
+
+            <OrderStatusStepper order={order} />
+
             {order.status === "pending_payment" && <PayNowButton orderId={order.id} />}
-            {(order.tracking_number || order.tracking_url) && (
-              <p className="mt-3 font-mono text-xs text-muted">
-                {order.shipping_carrier} {order.tracking_number}
+
+            {(order.shipping_carrier || order.tracking_number || order.tracking_url) && (
+              <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-line pt-4 font-mono text-xs text-muted">
+                <span className="text-ink">物流資訊：</span>
+                {order.shipping_carrier && <span>{order.shipping_carrier}</span>}
+                {order.tracking_number && <span>單號 {order.tracking_number}</span>}
                 {order.tracking_url && (
                   <a
                     href={order.tracking_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ml-2 text-brass hover:underline"
+                    className="text-brass hover:underline"
                   >
-                    查詢物流 →
+                    查詢物流進度 →
                   </a>
                 )}
-              </p>
+              </div>
             )}
           </div>
         ))}
