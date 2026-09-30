@@ -1,6 +1,6 @@
 # 家具購物網站
 
-<!-- deploy trigger: verifying updated EMAIL_FROM (order@bova-living.com) -->
+<!-- deploy trigger: verifying corrected SUPABASE_SERVICE_ROLE_KEY -->
 
 Next.js 14 (App Router) + Supabase + Tailwind CSS 打造的家具電商網站骨架。
 包含：SEO、商品分類、購物車、會員系統、後台管理、金流串接預留介面。
