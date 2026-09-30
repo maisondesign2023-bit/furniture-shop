@@ -22,6 +22,27 @@ export async function POST(req: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // 購物車可能存放在瀏覽器一段時間，先確認裡面的商品都還存在、還是上架中，
+  // 避免商品已被刪除/下架時，寫入 order_items 才失敗、留下沒有明細的殘留訂單
+  const productIds = [...new Set(items.map((item: any) => item.productId))];
+  const { data: existingProducts } = await supabase
+    .from("products")
+    .select("id, status")
+    .in("id", productIds);
+  const validIds = new Set(
+    (existingProducts ?? [])
+      .filter((p: { id: string; status: string }) => p.status !== "archived")
+      .map((p: { id: string }) => p.id)
+  );
+  const invalidItems = items.filter((item: any) => !validIds.has(item.productId));
+  if (invalidItems.length > 0) {
+    const names = invalidItems.map((i: any) => i.name).join("、");
+    return NextResponse.json(
+      { error: `「${names}」已下架或不存在，請從購物車移除後再重新結帳` },
+      { status: 400 }
+    );
+  }
+
   const orderNo = `ORD${Date.now()}`;
 
   const { data: order, error: orderError } = await supabase
@@ -58,6 +79,8 @@ export async function POST(req: Request) {
 
   const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
   if (itemsError) {
+    // 明細寫入失敗就把剛剛建立的訂單一起刪掉，避免留下沒有明細的殘留訂單
+    await supabase.from("orders").delete().eq("id", order.id);
     return NextResponse.json({ error: itemsError.message }, { status: 500 });
   }
 
