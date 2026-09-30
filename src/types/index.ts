@@ -29,7 +29,6 @@ export type Product = {
   price: number;
   compare_at_price: number | null;
   description: string | null;
-  notes: string | null;
   sku: string | null;
   stock: number;
   status: "draft" | "published" | "archived";

@@ -63,4 +63,19 @@
     display: block;
     clear: both;
   }
+
+  /* 商品頁「注意事項」用的縮小版樣式，跟 .rich-content 分開避免字級互相覆蓋 */
+  .rich-content-sm,
+  .rich-content-sm .ProseMirror {
+    @apply font-body text-xs leading-relaxed text-muted;
+  }
+  .rich-content-sm p {
+    @apply mb-2;
+  }
+  .rich-content-sm ul {
+    @apply mb-2 ml-5 list-disc;
+  }
+  .rich-content-sm ol {
+    @apply mb-2 ml-5 list-decimal;
+  }
 }

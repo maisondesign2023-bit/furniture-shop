@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { createPublicSupabase } from "@/lib/supabase/public";
 import ProductGallery from "@/components/ProductGallery";
 import AddToCartButton from "@/components/AddToCartButton";
-import type { Product } from "@/types";
+import type { Product, SitePage } from "@/types";
 import { buildMetadata, productJsonLd } from "@/lib/seo";
 import { getCoverImage } from "@/lib/get-cover-image";
 
@@ -26,6 +26,17 @@ async function getProduct(slug: string) {
     .eq("status", "published")
     .single();
   return data as Product | null;
+}
+
+// 全站統一的商品注意事項，在「頁面內容管理」用 product-notice 這個 slug 編輯
+async function getProductNotice() {
+  const supabase = createPublicSupabase();
+  const { data } = await supabase
+    .from("site_pages")
+    .select("*")
+    .eq("slug", "product-notice")
+    .single();
+  return data as SitePage | null;
 }
 
 export async function generateMetadata({
@@ -51,7 +62,10 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await getProduct(params.slug);
+  const [product, notice] = await Promise.all([
+    getProduct(params.slug),
+    getProductNotice(),
+  ]);
   if (!product) notFound();
 
   const images = (product!.product_images || []).sort(
@@ -110,10 +124,11 @@ export default async function ProductPage({
             />
           </div>
 
-          {product!.notes && (
-            <p className="mt-6 whitespace-pre-line font-body text-xs leading-relaxed text-muted">
-              {product!.notes}
-            </p>
+          {notice?.content && (
+            <div
+              className="rich-content-sm mt-6"
+              dangerouslySetInnerHTML={{ __html: notice.content }}
+            />
           )}
 
           <div className="mt-10">
