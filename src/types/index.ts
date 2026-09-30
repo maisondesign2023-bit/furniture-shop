@@ -184,6 +184,7 @@ export type Order = {
   recipient_phone: string;
   shipping_address: string;
   note: string | null;
+  admin_note: string | null;
   payment_provider: string | null;
   payment_trade_no: string | null;
   paid_at: string | null;

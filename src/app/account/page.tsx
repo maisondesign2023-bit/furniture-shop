@@ -81,8 +81,15 @@ export default async function AccountPage() {
 
             {order.note && (
               <div className="mt-5 border-t border-line pt-4 font-mono text-xs text-muted">
-                <span className="text-ink">訂單備註：</span>
+                <span className="text-ink">我的備註：</span>
                 <span className="whitespace-pre-line">{order.note}</span>
+              </div>
+            )}
+
+            {order.admin_note && (
+              <div className="mt-5 border-t border-line pt-4 font-mono text-xs text-muted">
+                <span className="text-brass">賣家備註：</span>
+                <span className="whitespace-pre-line">{order.admin_note}</span>
               </div>
             )}
           </div>
