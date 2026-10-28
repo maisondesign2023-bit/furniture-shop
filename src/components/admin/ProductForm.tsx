@@ -37,6 +37,21 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
         data: { user },
       } = await supabase.auth.getUser();
 
+      // 瀏覽器的登入身分可能在別的分頁被換掉（例如改登入客人帳號測試），先檢查才不會出現看不懂的 RLS 錯誤
+      if (!user) {
+        throw new Error("登入已逾時，請重新整理頁面並重新登入管理員帳號後再上架");
+      }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("is_admin")
+        .eq("id", user.id)
+        .single();
+      if (!profile?.is_admin) {
+        throw new Error(
+          `目前登入的帳號是 ${user.email}，不是管理員帳號。請先登出，改用管理員帳號登入後再上架商品`
+        );
+      }
+
       // 1. 新增商品
       const { data: product, error: productError } = await supabase
         .from("products")
