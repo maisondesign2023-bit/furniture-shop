@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="flex flex-col gap-2">
             <span>統一編號：90116468</span>
             <span>連絡電話：02-27480075</span>
-            <span>客服信箱：Maisondesign2023@gmail.com</span>
+            <span>客服信箱：bovaliving@gmail.com</span>
             <span>週一至週五 10:00–18:00</span>
           </div>
         </div>
